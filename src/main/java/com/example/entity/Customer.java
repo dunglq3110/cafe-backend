@@ -22,6 +22,7 @@ public class Customer {
     private Date dateOfBirth;
     private double totalSpend;
     private Gender gender;
+    private String phoneNumber;
 
     @OneToMany(mappedBy = "customer")
     private LinkedList<Receipt> receipts = new LinkedList<>();
@@ -80,5 +81,13 @@ public class Customer {
 
     public void setReceipts(LinkedList<Receipt> receipts) {
         this.receipts = receipts;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

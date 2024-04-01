@@ -25,6 +25,8 @@ public class ProductDetail {
     private int productQuantity;
     private int condimentQuantity;
 
+    private double productDiscount;
+
     public void setId(Long id) {
         this.id = id;
     }
