@@ -109,4 +109,6 @@ public class Staff {
     public void setReceipts(LinkedList<Receipt> receipts) {
         this.receipts = receipts;
     }
+
+
 }

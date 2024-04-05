@@ -24,7 +24,6 @@ public class ProductSize {
 
 
     private double unitPrice;
-    private double unitCost;
 
     public void setId(Long id) {
         this.id = id;
@@ -58,11 +57,13 @@ public class ProductSize {
         this.unitPrice = unitPrice;
     }
 
-    public double getUnitCost() {
-        return unitCost;
+    public LinkedList<ProductDetail> getProductDetails() {
+        return productDetails;
     }
 
-    public void setUnitCost(double unitCost) {
-        this.unitCost = unitCost;
+    public void setProductDetails(LinkedList<ProductDetail> productDetails) {
+        this.productDetails = productDetails;
     }
+
+
 }

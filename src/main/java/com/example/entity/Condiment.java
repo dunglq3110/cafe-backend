@@ -17,13 +17,9 @@ public class Condiment {
     private String name;
     private String image;
     private double unitPrice;
-    private double unitCost;
 
     @OneToMany(mappedBy = "condiment")
-    private LinkedList<ProductDetail> productDetail = new LinkedList<>();
-
-
-
+    private LinkedList<ProductCondimentDetail> productCondimentDetails = new LinkedList<>();
 
     public void setId(Long id) {
         this.id = id;
@@ -57,19 +53,11 @@ public class Condiment {
         this.unitPrice = unitPrice;
     }
 
-    public double getUnitCost() {
-        return unitCost;
+    public LinkedList<ProductCondimentDetail> getProductCondimentDetails() {
+        return productCondimentDetails;
     }
 
-    public void setUnitCost(double unitCost) {
-        this.unitCost = unitCost;
-    }
-
-    public LinkedList<ProductDetail> getProductDetail() {
-        return productDetail;
-    }
-
-    public void setProductDetail(LinkedList<ProductDetail> productDetail) {
-        this.productDetail = productDetail;
+    public void setProductCondimentDetails(LinkedList<ProductCondimentDetail> productCondimentDetails) {
+        this.productCondimentDetails = productCondimentDetails;
     }
 }

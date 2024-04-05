@@ -41,4 +41,6 @@ public class Size {
     public void setProductSizes(LinkedList<ProductSize> productSizes) {
         this.productSizes = productSizes;
     }
+
+
 }

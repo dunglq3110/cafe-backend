@@ -3,6 +3,8 @@ package com.example.entity;
 
 import jakarta.persistence.*;
 
+import java.util.LinkedList;
+
 @Entity
 public class ProductDetail {
 
@@ -18,9 +20,8 @@ public class ProductDetail {
     @JoinColumn(name = "product_size_id")
     private ProductSize productSize;
 
-    @ManyToOne
-    @JoinColumn(name = "condiment_id")
-    private Condiment condiment;
+    @OneToMany(mappedBy = "productDetail")
+    private LinkedList<ProductCondimentDetail> productCondimentDetails = new LinkedList<>();
 
     private int productQuantity;
     private int condimentQuantity;
@@ -51,14 +52,6 @@ public class ProductDetail {
         this.productSize = productSize;
     }
 
-    public Condiment getCondiment() {
-        return condiment;
-    }
-
-    public void setCondiment(Condiment condiment) {
-        this.condiment = condiment;
-    }
-
     public int getProductQuantity() {
         return productQuantity;
     }
@@ -73,5 +66,21 @@ public class ProductDetail {
 
     public void setCondimentQuantity(int condimentQuantity) {
         this.condimentQuantity = condimentQuantity;
+    }
+
+    public double getProductDiscount() {
+        return productDiscount;
+    }
+
+    public void setProductDiscount(double productDiscount) {
+        this.productDiscount = productDiscount;
+    }
+
+    public LinkedList<ProductCondimentDetail> getProductCondimentDetails() {
+        return productCondimentDetails;
+    }
+
+    public void setProductCondimentDetails(LinkedList<ProductCondimentDetail> productCondimentDetails) {
+        this.productCondimentDetails = productCondimentDetails;
     }
 }
