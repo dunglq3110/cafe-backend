@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 public class Receipt {
@@ -27,7 +28,7 @@ public class Receipt {
     private Customer customer;
 
     @OneToMany(mappedBy = "receipt")
-    private LinkedList<ProductDetail> productDetails = new LinkedList<>();
+    private List<ProductDetail> productDetails;
 
     public void setId(Long id) {
         this.id = id;
@@ -77,13 +78,11 @@ public class Receipt {
         this.customer = customer;
     }
 
-    public LinkedList<ProductDetail> getProductDetails() {
+    public List<ProductDetail> getProductDetails() {
         return productDetails;
     }
 
-    public void setProductDetails(LinkedList<ProductDetail> productDetails) {
+    public void setProductDetails(List<ProductDetail> productDetails) {
         this.productDetails = productDetails;
     }
-
-
 }

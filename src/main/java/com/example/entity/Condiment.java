@@ -1,12 +1,14 @@
 package com.example.entity;
 
 
+import com.example.util.ProductStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 public class Condiment {
@@ -18,8 +20,10 @@ public class Condiment {
     private String image;
     private double unitPrice;
 
+    private ProductStatus productStatus;
+
     @OneToMany(mappedBy = "condiment")
-    private LinkedList<ProductCondimentDetail> productCondimentDetails = new LinkedList<>();
+    private List<ProductCondimentDetail> productCondimentDetails;
 
     public void setId(Long id) {
         this.id = id;
@@ -53,11 +57,19 @@ public class Condiment {
         this.unitPrice = unitPrice;
     }
 
-    public LinkedList<ProductCondimentDetail> getProductCondimentDetails() {
+    public ProductStatus getProductStatus() {
+        return productStatus;
+    }
+
+    public void setProductStatus(ProductStatus productStatus) {
+        this.productStatus = productStatus;
+    }
+
+    public List<ProductCondimentDetail> getProductCondimentDetails() {
         return productCondimentDetails;
     }
 
-    public void setProductCondimentDetails(LinkedList<ProductCondimentDetail> productCondimentDetails) {
+    public void setProductCondimentDetails(List<ProductCondimentDetail> productCondimentDetails) {
         this.productCondimentDetails = productCondimentDetails;
     }
 }

@@ -9,6 +9,7 @@ import jakarta.persistence.OneToMany;
 
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 public class Customer {
@@ -25,7 +26,7 @@ public class Customer {
     private String phoneNumber;
 
     @OneToMany(mappedBy = "customer")
-    private LinkedList<Receipt> receipts = new LinkedList<>();
+    private List<Receipt> receipts;
 
     public void setId(Long id) {
         this.id = id;
@@ -75,14 +76,6 @@ public class Customer {
         this.gender = gender;
     }
 
-    public LinkedList<Receipt> getReceipts() {
-        return receipts;
-    }
-
-    public void setReceipts(LinkedList<Receipt> receipts) {
-        this.receipts = receipts;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -91,5 +84,11 @@ public class Customer {
         this.phoneNumber = phoneNumber;
     }
 
+    public List<Receipt> getReceipts() {
+        return receipts;
+    }
 
+    public void setReceipts(List<Receipt> receipts) {
+        this.receipts = receipts;
+    }
 }

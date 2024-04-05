@@ -1,22 +1,10 @@
-package com.example.entity;
-
+package com.example.dto;
 
 import com.example.util.ProductStatus;
 import com.example.util.ProductType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+public class ProductDTO {
 
-@Entity
-public class Product {
-    @Id
-    @GeneratedValue
     private Long id;
     private String name;
     private String image;
@@ -24,15 +12,12 @@ public class Product {
     private ProductType productType;
     private ProductStatus productStatus;
 
-    @OneToMany(mappedBy = "product")
-    private List<ProductSize> productSizes;
+    public Long getId() {
+        return id;
+    }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getName() {
@@ -73,13 +58,5 @@ public class Product {
 
     public void setProductStatus(ProductStatus productStatus) {
         this.productStatus = productStatus;
-    }
-
-    public List<ProductSize> getProductSizes() {
-        return productSizes;
-    }
-
-    public void setProductSizes(List<ProductSize> productSizes) {
-        this.productSizes = productSizes;
     }
 }

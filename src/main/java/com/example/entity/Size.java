@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 public class Size {
@@ -15,7 +16,7 @@ public class Size {
     private String name;
 
     @OneToMany(mappedBy = "size")
-    private LinkedList<ProductSize> productSizes = new LinkedList<>();
+    private List<ProductSize> productSizes;
 
 
     public void setId(Long id) {
@@ -34,13 +35,11 @@ public class Size {
         this.name = name;
     }
 
-    public LinkedList<ProductSize> getProductSizes() {
+    public List<ProductSize> getProductSizes() {
         return productSizes;
     }
 
-    public void setProductSizes(LinkedList<ProductSize> productSizes) {
+    public void setProductSizes(List<ProductSize> productSizes) {
         this.productSizes = productSizes;
     }
-
-
 }

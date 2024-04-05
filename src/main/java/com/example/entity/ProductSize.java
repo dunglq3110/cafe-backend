@@ -3,6 +3,7 @@ package com.example.entity;
 import jakarta.persistence.*;
 
 import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 public class ProductSize {
@@ -19,11 +20,11 @@ public class ProductSize {
     @JoinColumn(name = "size_id")
     private Size size;
 
-    @OneToMany(mappedBy = "productSize")
-    private LinkedList<ProductDetail> productDetails = new LinkedList<>();
-
-
     private double unitPrice;
+
+    @OneToMany(mappedBy = "productSize")
+    private List<ProductDetail> productDetails;
+
 
     public void setId(Long id) {
         this.id = id;
@@ -57,13 +58,11 @@ public class ProductSize {
         this.unitPrice = unitPrice;
     }
 
-    public LinkedList<ProductDetail> getProductDetails() {
+    public List<ProductDetail> getProductDetails() {
         return productDetails;
     }
 
-    public void setProductDetails(LinkedList<ProductDetail> productDetails) {
+    public void setProductDetails(List<ProductDetail> productDetails) {
         this.productDetails = productDetails;
     }
-
-
 }
