@@ -1,6 +1,7 @@
 package com.example.entity;
 
 
+import com.example.util.ReceiptStatus;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -18,6 +19,8 @@ public class Receipt {
 
     private double discount;
     private double totalPrice;
+
+    private ReceiptStatus receiptStatus;
 
     @ManyToOne
     @JoinColumn(name = "staff_id")
@@ -84,5 +87,13 @@ public class Receipt {
 
     public void setProductDetails(List<ProductDetail> productDetails) {
         this.productDetails = productDetails;
+    }
+
+    public ReceiptStatus getReceiptStatus() {
+        return receiptStatus;
+    }
+
+    public void setReceiptStatus(ReceiptStatus receiptStatus) {
+        this.receiptStatus = receiptStatus;
     }
 }

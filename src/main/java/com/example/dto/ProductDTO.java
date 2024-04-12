@@ -1,7 +1,11 @@
 package com.example.dto;
 
+import com.example.entity.Size;
 import com.example.util.ProductStatus;
 import com.example.util.ProductType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.List;
 
 public class ProductDTO {
 
@@ -11,6 +15,16 @@ public class ProductDTO {
     private double discount;
     private ProductType productType;
     private ProductStatus productStatus;
+
+    private List<SizeDTO> sizes;
+
+    public List<SizeDTO> getSizes() {
+        return sizes;
+    }
+
+    public void setSizes(List<SizeDTO> sizes) {
+        this.sizes = sizes;
+    }
 
     public Long getId() {
         return id;
@@ -59,4 +73,6 @@ public class ProductDTO {
     public void setProductStatus(ProductStatus productStatus) {
         this.productStatus = productStatus;
     }
+
+
 }

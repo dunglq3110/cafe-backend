@@ -21,13 +21,13 @@ public class ProductDetail {
     @JoinColumn(name = "product_size_id")
     private ProductSize productSize;
 
+    private int productQuantity;
+    private double productDiscount;
+    private double productPrice;
+
     @OneToMany(mappedBy = "productDetail")
     private List<ProductCondimentDetail> productCondimentDetails;
 
-    private int productQuantity;
-    private int condimentQuantity;
-
-    private double productDiscount;
 
     public void setId(Long id) {
         this.id = id;
@@ -61,13 +61,6 @@ public class ProductDetail {
         this.productQuantity = productQuantity;
     }
 
-    public int getCondimentQuantity() {
-        return condimentQuantity;
-    }
-
-    public void setCondimentQuantity(int condimentQuantity) {
-        this.condimentQuantity = condimentQuantity;
-    }
 
     public double getProductDiscount() {
         return productDiscount;
@@ -83,5 +76,13 @@ public class ProductDetail {
 
     public void setProductCondimentDetails(List<ProductCondimentDetail> productCondimentDetails) {
         this.productCondimentDetails = productCondimentDetails;
+    }
+
+    public double getProductPrice() {
+        return productPrice;
+    }
+
+    public void setProductPrice(double productPrice) {
+        this.productPrice = productPrice;
     }
 }

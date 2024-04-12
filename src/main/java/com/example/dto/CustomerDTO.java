@@ -1,21 +1,12 @@
-package com.example.entity;
-
+package com.example.dto;
 
 import com.example.util.Gender;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 
-@Entity
-public class Customer {
-
-    @Id
-    @GeneratedValue
+public class CustomerDTO {
+    @JsonIgnore
     private Long id;
     private String firstName;
     private String lastName;
@@ -23,15 +14,13 @@ public class Customer {
     private double totalSpend;
     private Gender gender;
     private String phoneNumber;
-    @OneToMany(mappedBy = "customer")
-    private List<Receipt> receipts;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -80,13 +69,5 @@ public class Customer {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public List<Receipt> getReceipts() {
-        return receipts;
-    }
-
-    public void setReceipts(List<Receipt> receipts) {
-        this.receipts = receipts;
     }
 }

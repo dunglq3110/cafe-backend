@@ -16,8 +16,9 @@ public class ProductCondimentDetail {
     @ManyToOne
     @JoinColumn(name = "product_detail_id")
     private ProductDetail productDetail;
-
     private int quantity;
+
+    private double condimentPrice;
 
     public void setId(Long id) {
         this.id = id;
@@ -51,5 +52,11 @@ public class ProductCondimentDetail {
         this.quantity = quantity;
     }
 
+    public double getCondimentPrice() {
+        return condimentPrice;
+    }
 
+    public void setCondimentPrice(double condimentPrice) {
+        this.condimentPrice = condimentPrice;
+    }
 }

@@ -7,7 +7,6 @@ import java.util.List;
 
 @Entity
 public class ProductSize {
-
     @Id
     @GeneratedValue
     private Long id;
@@ -20,7 +19,7 @@ public class ProductSize {
     @JoinColumn(name = "size_id")
     private Size size;
 
-    private double unitPrice;
+    private double price;
 
     @OneToMany(mappedBy = "productSize")
     private List<ProductDetail> productDetails;
@@ -50,13 +49,6 @@ public class ProductSize {
         this.size = size;
     }
 
-    public double getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(double unitPrice) {
-        this.unitPrice = unitPrice;
-    }
 
     public List<ProductDetail> getProductDetails() {
         return productDetails;
@@ -64,5 +56,13 @@ public class ProductSize {
 
     public void setProductDetails(List<ProductDetail> productDetails) {
         this.productDetails = productDetails;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

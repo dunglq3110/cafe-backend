@@ -1,21 +1,9 @@
-package com.example.entity;
-
+package com.example.dto;
 
 import com.example.util.Gender;
 import com.example.util.Role;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 
-import java.util.LinkedList;
-import java.util.List;
-
-@Entity
-public class Staff {
-
-    @Id
-    @GeneratedValue
+public class StaffDTO {
     private Long id;
     private String firstName;
     private String lastName;
@@ -26,16 +14,12 @@ public class Staff {
     private String email;
     private String password;
 
-    @OneToMany(mappedBy = "staff")
-    private List<Receipt> receipts;
-
+    public Long getId() {
+        return id;
+    }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getFirstName() {
@@ -100,13 +84,5 @@ public class Staff {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public List<Receipt> getReceipts() {
-        return receipts;
-    }
-
-    public void setReceipts(List<Receipt> receipts) {
-        this.receipts = receipts;
     }
 }
