@@ -1,6 +1,8 @@
 package com.example.mapper;
 
-import com.example.dto.StaffDTO;
+import com.example.dto.staff.StaffCreationRequest;
+import com.example.dto.staff.StaffResponse;
+import com.example.dto.staff.StaffUpdateRequest;
 import com.example.entity.Staff;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -12,24 +14,20 @@ import java.util.List;
 public class StaffMapper {
 
     private final ModelMapper mapper = new ModelMapper();
-    public StaffDTO toDTO(Staff staff) {
-        return mapper.map(staff, StaffDTO.class);
+    public StaffResponse toResponse(Staff staff) {
+        return mapper.map(staff, StaffResponse.class);
     }
-    public Staff toEntity(StaffDTO staffDTO) {
-        return mapper.map(staffDTO, Staff.class);
+    public Staff toEntity(StaffCreationRequest staffCreationRequest) {
+        return mapper.map(staffCreationRequest, Staff.class);
     }
-    public List<StaffDTO> toDTOs(List<Staff> staffs) {
-        List<StaffDTO> staffDTOS = new ArrayList<>();
-        for (Staff staff : staffs) {
-            staffDTOS.add(toDTO(staff));
-        }
-        return staffDTOS;
+    public List<StaffResponse> toResponse(List<Staff> staffs) {
+        List<StaffResponse> result = new ArrayList<>();
+        staffs.forEach(staff -> result.add(toResponse(staff)));
+        return result;
     }
-    public List<Staff> toEntities(List<StaffDTO> staffDTOS) {
-        List<Staff> staffs = new ArrayList<>();
-        for (StaffDTO staffDTO : staffDTOS) {
-            staffs.add(toEntity(staffDTO));
-        }
-        return staffs;
+
+    public void updateEntity(Staff staff, StaffUpdateRequest request) {
+        mapper.map(request, staff);
     }
+
 }

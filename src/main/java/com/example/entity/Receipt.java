@@ -3,24 +3,33 @@ package com.example.entity;
 
 import com.example.util.ReceiptStatus;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Receipt {
 
     @Id
-    @GeneratedValue
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
-    private Date date;
+    Date date;
 
-    private double discount;
-    private double totalPrice;
+    double discount;
+    double totalPrice;
 
-    private ReceiptStatus receiptStatus;
+    ReceiptStatus receiptStatus;
 
     @ManyToOne
     @JoinColumn(name = "staff_id")
@@ -33,67 +42,4 @@ public class Receipt {
     @OneToMany(mappedBy = "receipt")
     private List<ProductDetail> productDetails;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public double getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(double discount) {
-        this.discount = discount;
-    }
-
-    public double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public Staff getStaff() {
-        return staff;
-    }
-
-    public void setStaff(Staff staff) {
-        this.staff = staff;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public List<ProductDetail> getProductDetails() {
-        return productDetails;
-    }
-
-    public void setProductDetails(List<ProductDetail> productDetails) {
-        this.productDetails = productDetails;
-    }
-
-    public ReceiptStatus getReceiptStatus() {
-        return receiptStatus;
-    }
-
-    public void setReceiptStatus(ReceiptStatus receiptStatus) {
-        this.receiptStatus = receiptStatus;
-    }
 }

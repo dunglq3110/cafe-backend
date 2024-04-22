@@ -1,13 +1,17 @@
 package com.example.service;
 
-import com.example.dto.StaffDTO;
+import com.example.dto.staff.StaffCreationRequest;
+import com.example.dto.staff.StaffResponse;
+import com.example.dto.staff.StaffUpdateRequest;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface IStaffService {
-
-    StaffDTO findStaffById(Long id);
-    List<StaffDTO> findAll();
-    StaffDTO save(StaffDTO staffDTO);
+    StaffResponse createStaff(StaffCreationRequest request);
+    StaffResponse createManager(StaffCreationRequest request);
+    List<StaffResponse> findAll();
+    StaffResponse findStaffById(Long id);
+    StaffResponse updateStaff(Long id, StaffUpdateRequest request);
+    boolean deleteStaff(Long id);
+    StaffResponse getMyInfo();
 }

@@ -1,27 +1,16 @@
-package com.example.entity;
-
+package com.example.dto.staff;
 
 import com.example.util.Gender;
 import com.example.util.Role;
-import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.LinkedList;
-import java.util.List;
-
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Staff {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class StaffResponse {
     Long id;
     String firstName;
     String lastName;
@@ -32,7 +21,4 @@ public class Staff {
     String email;
     String password;
     String username;
-    @OneToMany(mappedBy = "staff")
-    List<Receipt> receipts;
-
 }

@@ -2,61 +2,29 @@ package com.example.entity;
 
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductCondimentDetail {
     @Id
-    @GeneratedValue
-    private Long id;
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+    int quantity;
+    double condimentPrice;
     @ManyToOne
     @JoinColumn(name = "condiment_id")
-    private Condiment condiment;
-
+    Condiment condiment;
     @ManyToOne
     @JoinColumn(name = "product_detail_id")
-    private ProductDetail productDetail;
-    private int quantity;
+    ProductDetail productDetail;
 
-    private double condimentPrice;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Condiment getCondiment() {
-        return condiment;
-    }
-
-    public void setCondiment(Condiment condiment) {
-        this.condiment = condiment;
-    }
-
-    public ProductDetail getProductDetail() {
-        return productDetail;
-    }
-
-    public void setProductDetail(ProductDetail productDetail) {
-        this.productDetail = productDetail;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public double getCondimentPrice() {
-        return condimentPrice;
-    }
-
-    public void setCondimentPrice(double condimentPrice) {
-        this.condimentPrice = condimentPrice;
-    }
 }

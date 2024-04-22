@@ -9,6 +9,7 @@ import java.util.List;
 
 public class ProductDTO {
 
+    @JsonIgnore
     private Long id;
     private String name;
     private String image;
