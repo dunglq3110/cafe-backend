@@ -23,8 +23,7 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    String firstName;
-    String lastName;
+    String name;
     Date dateOfBirth;
     double totalSpend;
     Gender gender;
