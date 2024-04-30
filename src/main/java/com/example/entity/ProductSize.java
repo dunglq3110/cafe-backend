@@ -14,23 +14,23 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE) //Private access level for the generated field
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductSize {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String name;
-    double price;
+     Long id;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    Product product;
+     Product product;
 
     @ManyToOne
     @JoinColumn(name = "size_id")
-    Size size;
+     Size size;
+
+     double price;
 
     @OneToMany(mappedBy = "productSize")
-    List<ProductDetail> productDetails;
+     List<ProductDetail> productDetails;
 
 }
