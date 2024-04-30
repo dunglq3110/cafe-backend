@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class AppInitConfig {
 
     PasswordEncoder passwordEncoder;
+
     @Bean
     ApplicationRunner applicationRunner(StaffRepository staffRepository){
         return args -> {

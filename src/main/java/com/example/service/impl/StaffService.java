@@ -27,8 +27,10 @@ import java.util.List;
 public class StaffService implements IStaffService {
 
     StaffRepository staffRepository;
+
     StaffMapper staffMapper;
     PasswordEncoder passwordEncoder;
+
 
     @Override
     @PreAuthorize("hasRole('MANAGER')")
@@ -57,18 +59,6 @@ public class StaffService implements IStaffService {
     @PreAuthorize("hasRole('MANAGER')")
     public StaffResponse updateStaff(Long id, StaffUpdateRequest request) {
         Staff staff = staffRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOTFOUND));
-        staffMapper.updateEntity(staff,request);
-
-        return staffMapper.toResponse(staffRepository.save(staff));
-    }
-    @Override
-    @PreAuthorize("hasRole('STAFF')")
-    public StaffResponse updateStaffInfo(StaffUpdateRequest request) {
-        //get data of user after login
-        SecurityContext context = SecurityContextHolder.getContext();
-        String name = context.getAuthentication().getName();
-
-        Staff staff = staffRepository.findStaffByUsername(name).orElseThrow(() -> new AppException(ErrorCode.USER_NOTFOUND));
         staffMapper.updateEntity(staff,request);
 
         return staffMapper.toResponse(staffRepository.save(staff));

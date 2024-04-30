@@ -48,7 +48,6 @@ public class AuthenticationService implements IAuthenticationService {
                 .build();
     }
 
-    //Check token is valid or not
     @Override
     public IntrospectResponse introspect(IntrospectRequest request) {
         String token = request.getToken();

@@ -22,8 +22,4 @@ public class Size {
     String name;
     @OneToMany(mappedBy = "size")
     List<ProductSize> productSizes;
-    public Size(long l, String s) {
-        this.id = l;
-        this.name = s;
-    }
 }

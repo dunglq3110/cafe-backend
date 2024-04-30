@@ -21,13 +21,12 @@ public class Condiment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String name;
-    String image;
-    double unitPrice;
-    ProductStatus productStatus;
-
+     Long id;
+     String name;
+     String image;
+     double unitPrice;
+     ProductStatus productStatus;
     @OneToMany(mappedBy = "condiment")
-    List<ProductCondimentDetail> productCondimentDetails;
+     List<ProductCondimentDetail> productCondimentDetails;
 
 }
