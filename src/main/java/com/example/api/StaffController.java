@@ -48,6 +48,12 @@ public class StaffController {
                 .result(staffService.getMyInfo())
                 .build();
     }
+    @GetMapping(value = "/staffs/{id}")
+    private ApiResponse<StaffResponse> findStaffById(@PathVariable("id") Long id, @RequestBody StaffUpdateRequest staffUpdateRequest) {
+        return ApiResponse.<StaffResponse>builder()
+                .result(staffService.findStaffById(id))
+                .build();
+    }
 
     @PutMapping(value = "/staffs/{id}")
     private ApiResponse<StaffResponse> updateStaff(@PathVariable("id") Long id, @RequestBody StaffUpdateRequest staffUpdateRequest) {
