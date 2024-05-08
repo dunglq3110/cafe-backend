@@ -1,6 +1,7 @@
 package com.example.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -22,9 +23,8 @@ public class ProductCondimentDetail {
     @ManyToOne
     @JoinColumn(name = "condiment_id")
     Condiment condiment;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "product_detail_id")
     ProductDetail productDetail;
-
-
 }

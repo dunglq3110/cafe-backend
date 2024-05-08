@@ -1,6 +1,5 @@
 package com.example.exeption;
 
-
 import lombok.Getter;
 import lombok.Setter;
 

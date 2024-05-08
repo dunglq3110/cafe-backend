@@ -3,6 +3,7 @@ package com.example.entity;
 
 import com.example.util.ProductStatus;
 import com.example.util.ProductType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -10,9 +11,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -29,6 +27,7 @@ public class Product {
     double discount;
     ProductType productType;
     ProductStatus productStatus;
+    @JsonIgnore
     @OneToMany(mappedBy = "product")
     List<ProductSize> productSizes;
 }

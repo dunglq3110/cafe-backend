@@ -1,8 +1,6 @@
 package com.example.mapper;
 
-import com.example.dto.ProductDTO;
 import com.example.dto.ProductSizeDTO;
-import com.example.entity.Product;
 import com.example.entity.ProductSize;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;

@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -7,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -18,19 +18,20 @@ import java.util.List;
 public class ProductSize {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     Long id;
+    Long id;
+    String name;
+    double price;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-     Product product;
+    Product product;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "size_id")
-     Size size;
+    Size size;
 
-     double price;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "productSize")
-     List<ProductDetail> productDetails;
-
+    List<ProductDetail> productDetails;
 }

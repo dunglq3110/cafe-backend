@@ -1,9 +1,7 @@
 package com.example.configuration;
 
 import com.example.entity.Staff;
-
 import com.example.repository.StaffRepository;
-
 import com.example.util.Role;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class AppInitConfig {
 
     PasswordEncoder passwordEncoder;
-
     @Bean
     ApplicationRunner applicationRunner(StaffRepository staffRepository){
         return args -> {

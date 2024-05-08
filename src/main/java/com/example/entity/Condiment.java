@@ -2,6 +2,7 @@ package com.example.entity;
 
 
 import com.example.util.ProductStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -9,7 +10,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -21,12 +21,16 @@ public class Condiment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     Long id;
-     String name;
-     String image;
-     double unitPrice;
-     ProductStatus productStatus;
+    Long id;
+    String name;
+
+    @JsonIgnore
+    String image;
+    double unitPrice;
+    ProductStatus productStatus;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "condiment")
-     List<ProductCondimentDetail> productCondimentDetails;
+    List<ProductCondimentDetail> productCondimentDetails;
 
 }

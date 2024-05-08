@@ -1,7 +1,6 @@
 package com.example.dto.staff;
 
 import com.example.util.Gender;
-import com.example.util.Role;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

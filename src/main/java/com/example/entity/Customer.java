@@ -2,6 +2,8 @@ package com.example.entity;
 
 
 import com.example.util.Gender;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -10,7 +12,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -25,10 +26,12 @@ public class Customer {
     Long id;
     String firstName;
     String lastName;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     Date dateOfBirth;
     double totalSpend;
     Gender gender;
     String phoneNumber;
+    @JsonIgnore
     @OneToMany(mappedBy = "customer")
     private List<Receipt> receipts;
 }

@@ -1,7 +1,6 @@
 package com.example.service.impl;
 
 import com.example.configuration.Data;
-
 import com.example.dto.authenticate.AuthenticationRequest;
 import com.example.dto.authenticate.AuthenticationResponse;
 import com.example.dto.authenticate.IntrospectRequest;
@@ -48,6 +47,7 @@ public class AuthenticationService implements IAuthenticationService {
                 .build();
     }
 
+    //Check token is valid or not
     @Override
     public IntrospectResponse introspect(IntrospectRequest request) {
         String token = request.getToken();

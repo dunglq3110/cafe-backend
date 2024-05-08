@@ -3,16 +3,19 @@ package com.example.service.impl;
 import com.example.dto.staff.StaffCreationRequest;
 import com.example.dto.staff.StaffResponse;
 import com.example.dto.staff.StaffUpdateRequest;
+import com.example.entity.Receipt;
 import com.example.entity.Staff;
 import com.example.exeption.AppException;
 import com.example.exeption.ErrorCode;
 import com.example.mapper.StaffMapper;
+import com.example.repository.ReceiptRepository;
 import com.example.repository.StaffRepository;
 import com.example.service.IStaffService;
 import com.example.util.Role;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,7 +32,8 @@ public class StaffService implements IStaffService {
     StaffRepository staffRepository;
     StaffMapper staffMapper;
     PasswordEncoder passwordEncoder;
-
+    @Autowired
+    ReceiptRepository receiptRepository;
 
     @Override
     @PreAuthorize("hasRole('MANAGER')")
@@ -62,6 +66,18 @@ public class StaffService implements IStaffService {
 
         return staffMapper.toResponse(staffRepository.save(staff));
     }
+    @Override
+    @PreAuthorize("hasRole('STAFF')")
+    public StaffResponse updateStaffInfo(StaffUpdateRequest request) {
+        //get data of user after login
+        SecurityContext context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+
+        Staff staff = staffRepository.findStaffByUsername(name).orElseThrow(() -> new AppException(ErrorCode.USER_NOTFOUND));
+        staffMapper.updateEntity(staff,request);
+
+        return staffMapper.toResponse(staffRepository.save(staff));
+    }
 
     @Override
     @PreAuthorize("hasRole('MANAGER')")
@@ -89,5 +105,12 @@ public class StaffService implements IStaffService {
         staff.setRole(Role.MANAGER);
         staff = staffRepository.save(staff);
         return staffMapper.toResponse(staff);
+    }
+    @Override
+    public void saveReceipt(Long staffId, Receipt receipt){
+        Staff staff = staffRepository.findById(staffId).orElseThrow(()
+                -> new AppException(ErrorCode.USER_NOTFOUND));
+        staff.getReceipts().add(receipt);
+        staffRepository.save(staff);
     }
 }

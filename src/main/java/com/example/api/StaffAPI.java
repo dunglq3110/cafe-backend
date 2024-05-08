@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping(value = "/manager")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class StaffController {
+public class StaffAPI {
 
     IStaffService staffService;
 
@@ -42,16 +42,17 @@ public class StaffController {
                 .build();
     }
 
+    @GetMapping(value = "/staffs/{id}")
+    private ApiResponse<StaffResponse> findStaffById(@PathVariable("id") Long id) {
+        return ApiResponse.<StaffResponse>builder()
+                .result(staffService.findStaffById(id))
+                .build();
+    }
+
     @GetMapping(value = "/myInfo")
     private ApiResponse<StaffResponse> getMyInfo() {
         return ApiResponse.<StaffResponse>builder()
                 .result(staffService.getMyInfo())
-                .build();
-    }
-    @GetMapping(value = "/staffs/{id}")
-    private ApiResponse<StaffResponse> findStaffById(@PathVariable("id") Long id, @RequestBody StaffUpdateRequest staffUpdateRequest) {
-        return ApiResponse.<StaffResponse>builder()
-                .result(staffService.findStaffById(id))
                 .build();
     }
 
@@ -59,6 +60,12 @@ public class StaffController {
     private ApiResponse<StaffResponse> updateStaff(@PathVariable("id") Long id, @RequestBody StaffUpdateRequest staffUpdateRequest) {
         return ApiResponse.<StaffResponse>builder()
                 .result(staffService.updateStaff(id, staffUpdateRequest))
+                .build();
+    }
+    @PutMapping(value = "/staffs")
+    private ApiResponse<StaffResponse> updateStaffInfo(@RequestBody StaffUpdateRequest staffUpdateRequest) {
+        return ApiResponse.<StaffResponse>builder()
+                .result(staffService.updateStaffInfo(staffUpdateRequest))
                 .build();
     }
 

@@ -2,15 +2,12 @@ package com.example.entity;
 
 
 import com.example.util.ReceiptStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -23,12 +20,10 @@ public class Receipt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     Date date;
-
     double discount;
     double totalPrice;
-
     ReceiptStatus receiptStatus;
 
     @ManyToOne
@@ -40,6 +35,6 @@ public class Receipt {
     private Customer customer;
 
     @OneToMany(mappedBy = "receipt")
+    @EqualsAndHashCode.Exclude
     private List<ProductDetail> productDetails;
-
 }
