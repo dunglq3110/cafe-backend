@@ -1,12 +1,17 @@
 package com.example.service.impl;
 
 import com.example.dto.customer.CustomerRequest;
+import com.example.dto.customer.CustomerResponse;
 import com.example.entity.Customer;
+import com.example.exeption.AppException;
+import com.example.exeption.ErrorCode;
 import com.example.mapper.CustomerMapper;
 import com.example.repository.CustomerRepository;
 import com.example.service.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -17,12 +22,18 @@ public class CustomerService implements ICustomerService {
     @Autowired
     CustomerMapper customerMapper;
     @Override
-    public Customer addCustomer(CustomerRequest customerRequest){
+    public CustomerResponse addCustomer(CustomerRequest customerRequest){
         Customer customer = customerMapper.toCustomer(customerRequest);
-        return customerRepository.save(customer);
+        customerRepository.save(customer);
+        return customerMapper.toResponse(customer);
     }
     @Override
-    public Customer getCustomerById(Long id){
-        return customerRepository.findById(id).orElse(null);
+    public CustomerResponse getCustomerById(Long id){
+        return customerMapper.toResponse(customerRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOTFOUND)));
+    }
+
+    @Override
+    public List<CustomerResponse> getAll() {
+        return customerMapper.toResponse(customerRepository.findAll());
     }
 }

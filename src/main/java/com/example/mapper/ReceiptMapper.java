@@ -1,6 +1,6 @@
 package com.example.mapper;
 
-import com.example.dto.CondimentDTO;
+import com.example.dto.codiment.CondimentDTO;
 import com.example.dto.ProductDetailDTO;
 import com.example.dto.ReceiptDTO;
 import com.example.dto.SizeDTO;

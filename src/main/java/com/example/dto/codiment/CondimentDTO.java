@@ -1,4 +1,4 @@
-package com.example.dto;
+package com.example.dto.codiment;
 
 import com.example.util.ProductStatus;
 import lombok.AllArgsConstructor;

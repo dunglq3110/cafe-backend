@@ -32,7 +32,7 @@ public class StaffService implements IStaffService {
     StaffRepository staffRepository;
     StaffMapper staffMapper;
     PasswordEncoder passwordEncoder;
-    @Autowired
+
     ReceiptRepository receiptRepository;
 
     @Override
