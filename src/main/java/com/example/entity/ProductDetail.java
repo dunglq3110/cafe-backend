@@ -32,7 +32,7 @@ public class ProductDetail {
     double productDiscount;
     double productPrice;
 
-    @OneToMany(mappedBy = "productDetail")
+    @OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     List<ProductCondimentDetail> productCondimentDetails;
 }

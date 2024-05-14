@@ -1,9 +1,7 @@
 package com.example.service.impl;
 
-import com.example.dto.order.AddCondimentReceiptRequest;
-import com.example.dto.order.AddProductReceiptRequest;
+import com.example.dto.order.*;
 import com.example.dto.receipt.ReceiptResponse;
-import com.example.dto.order.UpdateCustomerReceiptRequest;
 import com.example.entity.*;
 import com.example.exeption.AppException;
 import com.example.exeption.ErrorCode;
@@ -95,15 +93,56 @@ public class OrderService implements IOrderService {
                 .orElseThrow(() -> new AppException(ErrorCode.CONDIMENTS_NOT_FOUND));
         ProductCondimentDetail productCondimentDetail = new ProductCondimentDetail();
 
-
+        //mapper
         productCondimentDetail.setCondiment(condiment);
         productCondimentDetail.setProductDetail(productDetail);
         productCondimentDetail.setQuantity(addCondimentReceiptRequest.getQuantity());
         productCondimentDetail.setCondimentPrice(condiment.getUnitPrice());
 
+
+        //save
         productCondimentDetail = productCondimentDetailRepository.save(productCondimentDetail);
         Receipt receipt = productCondimentDetail.getProductDetail().getReceipt();
         return receiptMapper.toResponse(receipt);
+    }
+
+    @Override
+    public ReceiptResponse updateProductReceipt(UpdateProductReceiptRequest updateProductReceiptRequest) {
+        ProductDetail productDetail = productDetailRepository.findById(updateProductReceiptRequest.getProductDetailId())
+                .orElseThrow(() -> new AppException(ErrorCode.UNCATEGORIZED));
+
+        productDetail.setProductQuantity(updateProductReceiptRequest.getQuantity());
+        productDetail = productDetailRepository.save(productDetail);
+
+        return receiptMapper.toResponse(productDetail.getReceipt());
+    }
+
+    @Override
+    public ReceiptResponse updateCondimentReceipt(UpdateCondimentReceiptRequest updateCondimentReceiptRequest) {
+        ProductCondimentDetail productCondimentDetail = productCondimentDetailRepository.findById(updateCondimentReceiptRequest.getProductCondimentDetailId())
+                .orElseThrow(() -> new AppException(ErrorCode.UNCATEGORIZED));
+
+        productCondimentDetail.setQuantity(updateCondimentReceiptRequest.getQuantity());
+        productCondimentDetail = productCondimentDetailRepository.save(productCondimentDetail);
+        return receiptMapper.toResponse(productCondimentDetail.getProductDetail().getReceipt());
+    }
+
+    @Override
+    public ReceiptResponse deleteProductReceipt(Long id) {
+        Long receiptId = productDetailRepository.findById(id).get().getReceipt().getId();
+        productDetailRepository.deleteById(id);
+        return receiptMapper.toResponse(receiptRepository.findReceiptById(receiptId));
+    }
+
+    @Override
+    public ReceiptResponse deleteCondimentReceipt(Long id) {
+        Long receiptId = productCondimentDetailRepository.findById(id).get()
+                .getProductDetail()
+                .getReceipt()
+                .getId();
+
+        productCondimentDetailRepository.deleteById(id);
+        return receiptMapper.toResponse(receiptRepository.findReceiptById(receiptId));
     }
 
 

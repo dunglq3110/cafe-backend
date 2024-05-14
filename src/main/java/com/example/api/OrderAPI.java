@@ -1,10 +1,8 @@
 package com.example.api;
 
 import com.example.dto.ApiResponse;
-import com.example.dto.order.AddCondimentReceiptRequest;
-import com.example.dto.order.AddProductReceiptRequest;
+import com.example.dto.order.*;
 import com.example.dto.receipt.ReceiptResponse;
-import com.example.dto.order.UpdateCustomerReceiptRequest;
 import com.example.service.IOrderService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +25,7 @@ public class OrderAPI {
                 .build();
     }
 
-    @PostMapping(value = "/update-customer-receipt")
+    @PutMapping(value = "/update-customer-receipt")
     public ApiResponse<ReceiptResponse> updateCustomerReceipt(@RequestBody UpdateCustomerReceiptRequest updateCustomerReceiptRequest) {
         return ApiResponse.<ReceiptResponse>builder()
                 .result(orderService.updateCustomerReceipt(updateCustomerReceiptRequest))
@@ -47,6 +45,41 @@ public class OrderAPI {
                 .result(orderService.addCondimentReceipt(addCondimentReceiptRequest))
                 .build();
     }
+
+    @PutMapping(value = "/update-product-receipt")
+    public ApiResponse<ReceiptResponse> updateProductReceipt(@RequestBody UpdateProductReceiptRequest updateProductReceiptRequest) {
+        return ApiResponse.<ReceiptResponse>builder()
+                .result(orderService.updateProductReceipt(updateProductReceiptRequest))
+                .build();
+    }
+
+    @PutMapping(value = "/update-condiment-receipt")
+    public ApiResponse<ReceiptResponse> updateCondimentReceipt(@RequestBody UpdateCondimentReceiptRequest updateCondimentReceiptRequest) {
+        return ApiResponse.<ReceiptResponse>builder()
+                .result(orderService.updateCondimentReceipt(updateCondimentReceiptRequest))
+                .build();
+    }
+
+    @DeleteMapping(value = "/delete-product-receipt/{id}")
+    public ApiResponse<ReceiptResponse> deleteProductReceipt(@PathVariable("id") Long id) {
+        return ApiResponse.<ReceiptResponse>builder()
+                .result(orderService.deleteProductReceipt(id))
+                .build();
+    }
+
+    @DeleteMapping(value = "/delete-condiment-receipt/{id}")
+    public ApiResponse<ReceiptResponse> deleteCondimentReceipt(@PathVariable("id") Long id) {
+        return ApiResponse.<ReceiptResponse>builder()
+                .result(orderService.deleteCondimentReceipt(id))
+                .build();
+    }
+
+
+
+
+
+
+
 
 
 
