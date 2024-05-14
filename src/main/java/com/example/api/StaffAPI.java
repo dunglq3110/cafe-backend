@@ -18,9 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class StaffAPI {
-
     IStaffService staffService;
-
     @PostMapping(value = "/staffs")
     private ApiResponse<StaffResponse> createStaff(@RequestBody @Valid StaffCreationRequest userCreationRequest) {
         return ApiResponse.<StaffResponse>builder()

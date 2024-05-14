@@ -8,6 +8,9 @@ import com.example.exeption.ErrorCode;
 import com.example.mapper.CustomerMapper;
 import com.example.repository.CustomerRepository;
 import com.example.service.ICustomerService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +18,13 @@ import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CustomerService implements ICustomerService {
 
-    @Autowired
+
     CustomerRepository customerRepository;
-    @Autowired
+
     CustomerMapper customerMapper;
     @Override
     public CustomerResponse addCustomer(CustomerRequest customerRequest){

@@ -1,17 +1,15 @@
 package com.example.service;
 
-import com.example.dto.cart.OrderRequest;
-import com.example.dto.cart.OrderResponse;
-
-import java.util.List;
+import com.example.dto.order.AddCondimentReceiptRequest;
+import com.example.dto.order.AddProductReceiptRequest;
+import com.example.dto.receipt.ReceiptResponse;
+import com.example.dto.order.UpdateCustomerReceiptRequest;
 
 public interface IOrderService {
 
-    void placeOrder(OrderRequest orderRequest);
-    void removeItem(String index);
-    void clearCart();
-    double calculateTotal();
-    List<OrderResponse> getCartItems();
-    boolean cartExists(Long staffId);
-    void createCart(Long staffId);
+    ReceiptResponse createNewOrder();
+    ReceiptResponse updateCustomerReceipt(UpdateCustomerReceiptRequest updateCustomerReceiptRequest);
+    ReceiptResponse addProductReceipt(AddProductReceiptRequest addProductReceiptRequest);
+
+    ReceiptResponse addCondimentReceipt(AddCondimentReceiptRequest addCondimentReceiptRequest);
 }

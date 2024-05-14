@@ -11,6 +11,9 @@ import com.example.mapper.CondimentMapper;
 import com.example.repository.CondimentRepository;
 import com.example.service.ICondimentService;
 import com.example.util.ProductStatus;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +21,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CondimentService implements ICondimentService {
 
-    @Autowired
-    private CondimentRepository condimentRepository;
 
-    @Autowired
-    private CondimentMapper condimentMapper;
+    CondimentRepository condimentRepository;
+
+
+    CondimentMapper condimentMapper;
 
     @Override
     public List<CondimentDTO> getAllCondiments() {

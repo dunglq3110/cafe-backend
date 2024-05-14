@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SizeDTO {
 
-    @JsonIgnore
+
     private Long id;
     private String name;
     private double price;

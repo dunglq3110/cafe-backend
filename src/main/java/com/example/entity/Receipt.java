@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class Receipt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    Date date;
+    LocalDateTime date;
     double discount;
     double totalPrice;
     ReceiptStatus receiptStatus;

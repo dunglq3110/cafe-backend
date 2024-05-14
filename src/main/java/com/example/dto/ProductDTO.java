@@ -13,12 +13,12 @@ import java.util.List;
 @NoArgsConstructor
 public class ProductDTO {
 
-    @JsonIgnore
     private Long id;
     private String name;
     private String image;
     private double discount;
     private ProductType productType;
     private ProductStatus productStatus;
+    @JsonIgnore
     private List<SizeDTO> sizes;
 }

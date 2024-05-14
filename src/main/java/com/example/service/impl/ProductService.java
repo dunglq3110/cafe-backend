@@ -14,6 +14,9 @@ import com.example.repository.ProductRepository;
 import com.example.repository.ProductSizeRepository;
 import com.example.repository.SizeRepository;
 import com.example.service.IProductService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,16 +25,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductService implements IProductService {
 
-    @Autowired
-    private ProductRepository productRepository;
-    @Autowired
-    private SizeRepository sizeRepository;
-    @Autowired
-    private ProductSizeRepository productSizeRepository;
-    @Autowired
-    private ProductMapper productMapper;
+    ProductRepository productRepository;
+    SizeRepository sizeRepository;
+    ProductSizeRepository productSizeRepository;
+    ProductMapper productMapper;
+
     @Override
     public ProductDTO save(ProductDTO productDTO) {
         Product product = productMapper.toEntity(productDTO);
@@ -43,7 +45,7 @@ public class ProductService implements IProductService {
                 ProductSize productSize = new ProductSize();
                 productSize.setProduct(product);
                 Optional<Size> size = sizeRepository.findByName(sizeDTO.getName());
-                if (size.isPresent()){
+                if (size.isPresent()) {
                     productSize.setName(size.get().getName());
                     productSize.setSize(size.get());
                     productSize.setPrice(sizeDTO.getPrice());
@@ -84,7 +86,7 @@ public class ProductService implements IProductService {
                     ProductSize productSize = new ProductSize();
                     productSize.setProduct(product);
                     Optional<Size> size = sizeRepository.findByName(sizeDTO.getName());
-                    if (size.isPresent()){
+                    if (size.isPresent()) {
                         productSize.setName(size.get().getName());
                         productSize.setSize(size.get());
                         productSize.setPrice(sizeDTO.getPrice());
@@ -99,21 +101,21 @@ public class ProductService implements IProductService {
         ProductDTO result = productMapper.toDTO(product);
         return result;
     }
+
     @Override
     public ProductDTO findProductById(Long id) {
         Optional<Product> product = productRepository.findById(id);
         ProductDTO result = null;
-        if (product.isPresent())
-        {
+        if (product.isPresent()) {
             result = productMapper.toDTO(product.get());
         }
         return result;
     }
+
     public SizeDTO findSizeById(Long id) {
         Optional<Size> size = sizeRepository.findById(id);
         SizeDTO result = null;
-        if (size.isPresent())
-        {
+        if (size.isPresent()) {
             result = new SizeDTO();
             result.setId(size.get().getId());
             result.setName(size.get().getName());
@@ -147,7 +149,7 @@ public class ProductService implements IProductService {
     @Override
     public SizeDTO checkProductSize(ProductRequest productRequest) {
         Optional<Product> productOptional = productRepository.findById((long) productRequest.getId());
-        if (!productOptional.isPresent()){
+        if (!productOptional.isPresent()) {
             throw new AppException(ErrorCode.PRODUCT_NOT_FOUND);
         }
         Product product = productOptional.get();

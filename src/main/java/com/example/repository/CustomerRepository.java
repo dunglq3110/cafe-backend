@@ -10,5 +10,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     @Override
     Optional<Customer> findById(Long aLong);
+    Customer findCustomersById(Long id);
     List<Customer> findCustomerByPhoneNumber(String phoneNumber);
 }

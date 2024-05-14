@@ -32,7 +32,6 @@ public class StaffService implements IStaffService {
     StaffRepository staffRepository;
     StaffMapper staffMapper;
     PasswordEncoder passwordEncoder;
-
     ReceiptRepository receiptRepository;
 
     @Override
@@ -72,7 +71,6 @@ public class StaffService implements IStaffService {
         //get data of user after login
         SecurityContext context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
-
         Staff staff = staffRepository.findStaffByUsername(name).orElseThrow(() -> new AppException(ErrorCode.USER_NOTFOUND));
         staffMapper.updateEntity(staff,request);
 
