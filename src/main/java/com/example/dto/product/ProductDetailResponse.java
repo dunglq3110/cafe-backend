@@ -1,8 +1,5 @@
 package com.example.dto.product;
 
-import com.example.dto.ProductDTO;
-import com.example.dto.SizeDTO;
-import com.example.dto.product.ProductCondimentDetailResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +15,6 @@ public class ProductDetailResponse {
     int productQuantity;
     double productDiscount;
     double productPrice;
-    ProductDTO product;
-    SizeDTO size;
+    ProductSizeResponse productSize;
     List<ProductCondimentDetailResponse> productCondimentDetails;
 }

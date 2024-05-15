@@ -1,24 +1,23 @@
-package com.example.dto;
+package com.example.dto.product;
 
 import com.example.util.ProductStatus;
 import com.example.util.ProductType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class ProductDTO {
+@AllArgsConstructor
+public class ProductSizeResponse {
 
     private Long id;
-    private String name;
+    private String productName;
     private String image;
     private double discount;
     private ProductType productType;
     private ProductStatus productStatus;
-    @JsonIgnore
-    private List<SizeDTO> sizes;
+    private String sizeName;
+    Long price;
 }

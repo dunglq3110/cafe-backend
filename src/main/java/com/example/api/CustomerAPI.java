@@ -3,13 +3,12 @@ package com.example.api;
 import com.example.dto.ApiResponse;
 import com.example.dto.customer.CustomerRequest;
 import com.example.dto.customer.CustomerResponse;
-import com.example.entity.Customer;
-import com.example.mapper.CustomerMapper;
+
 import com.example.service.ICustomerService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

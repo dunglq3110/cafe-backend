@@ -67,8 +67,10 @@ public class OrderService implements IOrderService {
     @Override
     public ReceiptResponse addProductReceipt(AddProductReceiptRequest addProductReceiptRequest) {
         //find objects in database
-        Product product = productRepository.findById(addProductReceiptRequest.getProductId()).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
-        Size size = sizeRepository.findById(addProductReceiptRequest.getSizeId()).orElseThrow(() -> new AppException((ErrorCode.SIZE_NOT_FOUND)));
+        Product product = productRepository.findById(addProductReceiptRequest.getProductId())
+                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        Size size = sizeRepository.findById(addProductReceiptRequest.getSizeId())
+                .orElseThrow(() -> new AppException((ErrorCode.SIZE_NOT_FOUND)));
         Receipt receipt = receiptRepository.findReceiptById(addProductReceiptRequest.getReceiptId());
         ProductSize productSize = productSizeRepository.findProductSizeByProductAndSize(product, size);
 
@@ -81,7 +83,8 @@ public class OrderService implements IOrderService {
         productDetail.setProductDiscount(product.getDiscount());
 
         productDetail = productDetailRepository.save(productDetail);
-        return receiptMapper.toResponse(receiptRepository.findReceiptById(receipt.getId()));
+        Receipt receiptTest = receiptRepository.findReceiptById(receipt.getId());
+        return receiptMapper.toResponse(receiptTest);
     }
 
     @Override

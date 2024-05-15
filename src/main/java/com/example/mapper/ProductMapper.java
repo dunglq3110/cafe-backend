@@ -1,7 +1,13 @@
 package com.example.mapper;
 
-import com.example.dto.ProductDTO;
+
+import com.example.dto.product.ProductCreateRequest;
+import com.example.dto.product.ProductResponse;
+import com.example.dto.product.SizePriceRequest;
+import com.example.dto.product.SizePriceResponse;
 import com.example.entity.Product;
+import com.example.entity.ProductSize;
+import com.example.entity.Size;
 import com.example.repository.SizeRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,26 +21,41 @@ public class ProductMapper {
     @Autowired
     private SizeRepository sizeRepository;
     private final ModelMapper mapper = new ModelMapper();
-    public ProductDTO toDTO(Product product) {
-        ProductDTO result = new ProductDTO();
-        return mapper.map(product, ProductDTO.class);
+
+    public Product toEntity(ProductCreateRequest productCreateRequest) {
+        //base mapper
+        Product product = mapper.map(productCreateRequest, Product.class);
+
+        //SizePrice manual mapper
+        List<ProductSize> productSizes = new ArrayList<>();
+        for (SizePriceRequest sizePrice : productCreateRequest.getSizes()) {
+            Size size = sizeRepository.findByName(sizePrice.getName()).get();
+            ProductSize productSize = new ProductSize();
+            productSize.setSize(size);
+            productSize.setPrice(sizePrice.getPrice());
+            productSizes.add(productSize);
+        }
+        product.setProductSizes(productSizes);
+        return product;
     }
-    public Product toEntity(ProductDTO productDTO) {
-        Product result = mapper.map(productDTO, Product.class);
+    public ProductResponse toResponse(Product product) {
+        ProductResponse productResponse = mapper.map(product, ProductResponse.class);
+        List<SizePriceResponse> sizePriceResponses = new ArrayList<>();
+        for (ProductSize productSize: product.getProductSizes()) {
+            SizePriceResponse sizePriceResponse = new SizePriceResponse();
+            sizePriceResponse.setName(productSize.getSize().getName());
+            sizePriceResponse.setPrice(productSize.getPrice());
+            sizePriceResponses.add(sizePriceResponse);
+        }
+        productResponse.setSizes(sizePriceResponses);
+        return productResponse;
+    }
+    public List<ProductResponse> toResponse(List<Product> products) {
+        List<ProductResponse> result = new ArrayList<>();
+        for (Product product:products) {
+            result.add(toResponse(product));
+        }
         return result;
     }
-    public List<ProductDTO> toDTOs(List<Product> products) {
-        List<ProductDTO> productDTOS = new ArrayList<>();
-        for (Product p : products) {
-            productDTOS.add(toDTO(p));
-        }
-        return productDTOS;
-    }
-    public List<Product> toEntities(List<ProductDTO> productDTOS) {
-        List<Product> products = new ArrayList<>();
-        for (ProductDTO p : productDTOS) {
-            products.add(toEntity(p));
-        }
-        return products;
-    }
+
 }

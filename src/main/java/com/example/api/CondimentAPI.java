@@ -2,13 +2,13 @@ package com.example.api;
 
 import com.example.dto.ApiResponse;
 import com.example.dto.codiment.CondimentCreateRequest;
-import com.example.dto.codiment.CondimentDTO;
+
 import com.example.dto.codiment.CondimentResponse;
 import com.example.service.ICondimentService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

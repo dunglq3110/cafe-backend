@@ -1,4 +1,5 @@
-package com.example.dto.cart;
+package com.example.dto.product;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CondimentResponse {
-
-    private Long id;
-    private int quantity;
+public class SizePriceResponse {
+    String name;
+    double price;
 }

@@ -19,7 +19,6 @@ public class ProductSize {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    String name;
     double price;
 
     @ManyToOne

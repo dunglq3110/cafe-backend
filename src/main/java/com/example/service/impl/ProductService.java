@@ -1,9 +1,11 @@
 package com.example.service.impl;
 
-import com.example.dto.ProductDTO;
-import com.example.dto.SizeDTO;
-import com.example.dto.cart.ProductRequest;
-import com.example.dto.cart.ProductResponse;
+
+
+import com.example.dto.product.ProductCreateRequest;
+import com.example.dto.product.ProductResponse;
+
+import com.example.dto.product.SizePriceRequest;
 import com.example.entity.Product;
 import com.example.entity.ProductSize;
 import com.example.entity.Size;
@@ -17,165 +19,45 @@ import com.example.service.IProductService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductService implements IProductService {
 
-    ProductRepository productRepository;
-    SizeRepository sizeRepository;
-    ProductSizeRepository productSizeRepository;
+
     ProductMapper productMapper;
-
+    ProductRepository productRepository;
+    ProductSizeRepository productSizeRepository;
+    SizeRepository sizeRepository;
     @Override
-    public ProductDTO save(ProductDTO productDTO) {
-        Product product = productMapper.toEntity(productDTO);
+    public ProductResponse createProduct(ProductCreateRequest productCreateRequest) {
+        Product product = productMapper.toEntity(productCreateRequest);
         product = productRepository.save(product);
-        // Assuming productSizes is a list of SizeDTOs in your ProductDTO
-        if (productDTO.getSizes() != null) {
-            product.setProductSizes(new ArrayList<>());
-            for (SizeDTO sizeDTO : productDTO.getSizes()) {
-                ProductSize productSize = new ProductSize();
-                productSize.setProduct(product);
-                Optional<Size> size = sizeRepository.findByName(sizeDTO.getName());
-                if (size.isPresent()) {
-                    productSize.setName(size.get().getName());
-                    productSize.setSize(size.get());
-                    productSize.setPrice(sizeDTO.getPrice());
-                    productSize = productSizeRepository.save(productSize);
-                    product.getProductSizes().add(productSize);
-                }
-            }
+        for (SizePriceRequest sizePriceRequest: productCreateRequest.getSizes()) {
+            Size size = sizeRepository.findByName(sizePriceRequest.getName()).get();
+            ProductSize productSize = new ProductSize();
+            productSize.setProduct(product);
+            productSize.setSize(size);
+            productSize.setPrice(sizePriceRequest.getPrice());
+            productSize = productSizeRepository.save(productSize);
         }
-        product = productRepository.save(product);
-        ProductDTO result = productMapper.toDTO(product);
-        return result;
-    }
-
-    //update product
-    @Override
-    public ProductDTO update(ProductDTO productDTO, long id) {
-        Product product = productRepository.findById(id).get();
-        product.setName(productDTO.getName());
-        product.setImage(productDTO.getImage());
-        product.setDiscount(productDTO.getDiscount());
-        product.setProductType(productDTO.getProductType());
-        product.setProductStatus(productDTO.getProductStatus());
-
-        // Assuming productSizes is a list of SizeDTOs in your ProductDTO
-        if (productDTO.getSizes() != null) {
-            for (SizeDTO sizeDTO : productDTO.getSizes()) {
-                Optional<ProductSize> existingProductSize = product.getProductSizes().stream()
-                        .filter(ps -> ps.getSize().getName().equals(sizeDTO.getName()))
-                        .findFirst();
-
-                if (existingProductSize.isPresent()) {
-                    // Update the existing ProductSize
-                    ProductSize productSize = existingProductSize.get();
-                    productSize.setPrice(sizeDTO.getPrice());
-                    productSize = productSizeRepository.save(productSize);
-                } else {
-                    // Create a new ProductSize
-                    ProductSize productSize = new ProductSize();
-                    productSize.setProduct(product);
-                    Optional<Size> size = sizeRepository.findByName(sizeDTO.getName());
-                    if (size.isPresent()) {
-                        productSize.setName(size.get().getName());
-                        productSize.setSize(size.get());
-                        productSize.setPrice(sizeDTO.getPrice());
-                        productSize = productSizeRepository.save(productSize);
-                        product.getProductSizes().add(productSize);
-                    }
-                }
-            }
-        }
-
-        product = productRepository.save(product);
-        ProductDTO result = productMapper.toDTO(product);
-        return result;
+        return productMapper.toResponse(product);
     }
 
     @Override
-    public ProductDTO findProductById(Long id) {
-        Optional<Product> product = productRepository.findById(id);
-        ProductDTO result = null;
-        if (product.isPresent()) {
-            result = productMapper.toDTO(product.get());
-        }
-        return result;
-    }
-
-    public SizeDTO findSizeById(Long id) {
-        Optional<Size> size = sizeRepository.findById(id);
-        SizeDTO result = null;
-        if (size.isPresent()) {
-            result = new SizeDTO();
-            result.setId(size.get().getId());
-            result.setName(size.get().getName());
-        }
-        return result;
+    public List<ProductResponse> getAll() {
+        return productMapper.toResponse(productRepository.findAll());
     }
 
     @Override
-    public List<ProductDTO> findAll() {
-        return productMapper.toDTOs(productRepository.findAll());
-    }
+    public ProductResponse findProductById(Long id) {
 
-    @Override
-    public ProductResponse findById(int id) {
-        Optional<Product> productOptional = productRepository.findById((long) id);
-
-        if (!productOptional.isPresent()) {
-            throw new AppException(ErrorCode.PRODUCT_NOT_FOUND);
-        }
-
-        Product product = productOptional.get();
-        ProductResponse newProduct = new ProductResponse();
-        newProduct.setName(product.getName());
-        newProduct.setDiscount(product.getDiscount());
-        newProduct.setProductStatus(product.getProductStatus());
-        newProduct.setProductType(product.getProductType());
-
-        return newProduct;
-    }
-
-    @Override
-    public SizeDTO checkProductSize(ProductRequest productRequest) {
-        Optional<Product> productOptional = productRepository.findById((long) productRequest.getId());
-        if (!productOptional.isPresent()) {
-            throw new AppException(ErrorCode.PRODUCT_NOT_FOUND);
-        }
-        Product product = productOptional.get();
-        List<ProductSize> productSizes = product.getProductSizes();
-
-        String sizeName = switch (productRequest.getSize()) {
-            case 1 -> "S";
-            case 2 -> "M";
-            case 3 -> "L";
-            default -> throw new AppException(ErrorCode.SIZE_NOT_FOUND);
-        };
-
-        Optional<ProductSize> productSizeOptional = productSizes.stream()
-                .filter(ps -> ps.getSize().getName().equals(sizeName))
-                .findFirst();
-
-        if (!productSizeOptional.isPresent()) {
-            throw new AppException(ErrorCode.SIZE_NOT_FOUND);
-        }
-
-        ProductSize productSize = productSizeOptional.get();
-        SizeDTO sizeDTO = new SizeDTO();
-        sizeDTO.setId(productSize.getId());
-        sizeDTO.setName(productSize.getName());
-        sizeDTO.setPrice(productSize.getPrice());
-
-        return sizeDTO;
+        return productMapper.toResponse(productRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND)));
     }
 }
