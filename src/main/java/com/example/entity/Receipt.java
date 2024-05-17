@@ -35,7 +35,22 @@ public class Receipt {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @OneToMany(mappedBy = "receipt")
+    @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     private List<ProductDetail> productDetails;
+
+    public void updateTotalPrice() {
+
+        double total = 0;
+        for (ProductDetail productDetail: getProductDetails()) {
+            total += productDetail.getProductPrice()*productDetail.getProductQuantity()*(1-productDetail.getProductDiscount());
+            if (productDetail.getProductCondimentDetails() != null)
+            {
+                for (ProductCondimentDetail productCondimentDetail: productDetail.getProductCondimentDetails()) {
+                    total += productCondimentDetail.getCondimentPrice()* productCondimentDetail.getQuantity();
+                }
+            }
+        }
+        setTotalPrice(total*(1-getDiscount()));
+    }
 }

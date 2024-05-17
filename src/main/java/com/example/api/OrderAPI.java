@@ -18,6 +18,14 @@ public class OrderAPI {
 
     IOrderService orderService;
 
+    @GetMapping(value = "/process-receipt-id")
+    public ApiResponse<ReceiptResponse> getProcessReceiptOfStaff() {
+        return ApiResponse.<ReceiptResponse>builder()
+                .result(orderService.getProcessReceiptOfStaff())
+                .build();
+    }
+
+
     @PostMapping(value = "/new-order")
     public ApiResponse<ReceiptResponse> createNewOrder() {
         return ApiResponse.<ReceiptResponse>builder()
@@ -60,6 +68,21 @@ public class OrderAPI {
                 .build();
     }
 
+    @PutMapping(value = "/finish-order/{id}")
+    public ApiResponse<ReceiptResponse> finishOrder(@PathVariable("id") Long id) {
+        return ApiResponse.<ReceiptResponse>builder()
+                .result(orderService.finishOrder(id))
+                .build();
+    }
+
+    @DeleteMapping(value = "/delete-order/{id}")
+    public ApiResponse<Boolean> deleteOrder(@PathVariable("id") Long id) {
+        return ApiResponse.<Boolean>builder()
+                .result(orderService.deleteOrder(id))
+                .build();
+    }
+
+
     @DeleteMapping(value = "/delete-product-receipt/{id}")
     public ApiResponse<ReceiptResponse> deleteProductReceipt(@PathVariable("id") Long id) {
         return ApiResponse.<ReceiptResponse>builder()
@@ -73,14 +96,6 @@ public class OrderAPI {
                 .result(orderService.deleteCondimentReceipt(id))
                 .build();
     }
-
-
-
-
-
-
-
-
 
 
 }

@@ -9,6 +9,7 @@ import com.example.mapper.ReceiptMapper;
 import com.example.repository.*;
 import com.example.service.IOrderService;
 import com.example.util.ReceiptStatus;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -17,6 +18,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +36,16 @@ public class OrderService implements IOrderService {
     ProductDetailRepository productDetailRepository;
     CondimentRepository condimentRepository;
     ProductCondimentDetailRepository productCondimentDetailRepository;
+
+    @Override
+    public ReceiptResponse getProcessReceiptOfStaff() {
+        SecurityContext context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+        Staff staff = staffRepository.findStaffByUsername(name).orElseThrow(() -> new AppException(ErrorCode.USER_NOTFOUND));
+        List<Receipt> receipts = receiptRepository.findReceiptByStaffAndReceiptStatusOrderByDateDesc(staff, ReceiptStatus.PROGRESS);
+        if (receipts.isEmpty()) return null;
+        else return receiptMapper.toResponse(receipts.get(0));
+    }
 
     @Override
     public ReceiptResponse createNewOrder() {
@@ -83,8 +96,9 @@ public class OrderService implements IOrderService {
         productDetail.setProductDiscount(product.getDiscount());
 
         productDetail = productDetailRepository.save(productDetail);
-        Receipt receiptTest = receiptRepository.findReceiptById(receipt.getId());
-        return receiptMapper.toResponse(receiptTest);
+        receipt.updateTotalPrice();
+        receipt = receiptRepository.save(receipt);
+        return receiptMapper.toResponse(receiptRepository.findReceiptById(receipt.getId()));
     }
 
     @Override
@@ -106,6 +120,8 @@ public class OrderService implements IOrderService {
         //save
         productCondimentDetail = productCondimentDetailRepository.save(productCondimentDetail);
         Receipt receipt = productCondimentDetail.getProductDetail().getReceipt();
+        receipt.updateTotalPrice();
+        receipt = receiptRepository.save(receipt);
         return receiptMapper.toResponse(receipt);
     }
 
@@ -116,8 +132,10 @@ public class OrderService implements IOrderService {
 
         productDetail.setProductQuantity(updateProductReceiptRequest.getQuantity());
         productDetail = productDetailRepository.save(productDetail);
-
-        return receiptMapper.toResponse(productDetail.getReceipt());
+        Receipt receipt = productDetail.getReceipt();
+        receipt.updateTotalPrice();
+        receipt = receiptRepository.save(receipt);
+        return receiptMapper.toResponse(receipt);
     }
 
     @Override
@@ -131,9 +149,35 @@ public class OrderService implements IOrderService {
     }
 
     @Override
+    public ReceiptResponse finishOrder(Long id) {
+        Receipt receipt = receiptRepository.findReceiptById(id);
+        receipt.setReceiptStatus(ReceiptStatus.FINISHED);
+        if (receipt.getCustomer() != null)
+        {
+            Customer customer = receipt.getCustomer();
+            customer.setTotalSpend(customer.getTotalSpend() + receipt.getTotalPrice()*(1-receipt.getDiscount()));
+            customer = customerRepository.save(customer);
+        }
+        receipt = receiptRepository.save(receipt);
+        return receiptMapper.toResponse(receipt);
+    }
+
+    @Override
+    public Boolean deleteOrder(Long id) {
+        if (receiptRepository.findReceiptById(id).getReceiptStatus() != ReceiptStatus.FINISHED) {
+            receiptRepository.deleteById(id);
+            return true;
+        }
+        else return false;
+    }
+
+    @Override
     public ReceiptResponse deleteProductReceipt(Long id) {
         Long receiptId = productDetailRepository.findById(id).get().getReceipt().getId();
         productDetailRepository.deleteById(id);
+        Receipt receipt = receiptRepository.findReceiptById(receiptId);
+        receipt.updateTotalPrice();
+        receipt = receiptRepository.save(receipt);
         return receiptMapper.toResponse(receiptRepository.findReceiptById(receiptId));
     }
 
