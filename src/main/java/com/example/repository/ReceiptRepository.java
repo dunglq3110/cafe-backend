@@ -12,4 +12,10 @@ import java.util.List;
 public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
     Receipt findReceiptById(Long id);
     List<Receipt> findReceiptByStaffAndReceiptStatusOrderByDateDesc(Staff staff, ReceiptStatus receiptStatus);
+
+
+
+
+
+
 }

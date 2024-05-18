@@ -73,6 +73,7 @@ public class OrderService implements IOrderService {
         Receipt receipt = receiptRepository.findReceiptById(updateCustomerReceiptRequest.getReceiptId());
         Customer customer = customerRepository.findCustomersById(updateCustomerReceiptRequest.getCustomerId());
         receipt.setCustomer(customer);
+        receipt.updateTotalPrice();
         receipt = receiptRepository.save(receipt);
         return receiptMapper.toResponse(receipt);
     }
@@ -145,7 +146,10 @@ public class OrderService implements IOrderService {
 
         productCondimentDetail.setQuantity(updateCondimentReceiptRequest.getQuantity());
         productCondimentDetail = productCondimentDetailRepository.save(productCondimentDetail);
-        return receiptMapper.toResponse(productCondimentDetail.getProductDetail().getReceipt());
+        Receipt receipt = productCondimentDetail.getProductDetail().getReceipt();
+        receipt.updateTotalPrice();
+        receipt = receiptRepository.save(receipt);
+        return receiptMapper.toResponse(receipt);
     }
 
     @Override
@@ -189,7 +193,10 @@ public class OrderService implements IOrderService {
                 .getId();
 
         productCondimentDetailRepository.deleteById(id);
-        return receiptMapper.toResponse(receiptRepository.findReceiptById(receiptId));
+        Receipt receipt = receiptRepository.findReceiptById(receiptId);
+        receipt.updateTotalPrice();
+        receipt = receiptRepository.save(receipt);
+        return receiptMapper.toResponse(receipt);
     }
 
 

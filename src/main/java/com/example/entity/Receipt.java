@@ -40,17 +40,18 @@ public class Receipt {
     private List<ProductDetail> productDetails;
 
     public void updateTotalPrice() {
-
         double total = 0;
         for (ProductDetail productDetail: getProductDetails()) {
             total += productDetail.getProductPrice()*productDetail.getProductQuantity()*(1-productDetail.getProductDiscount());
-            if (productDetail.getProductCondimentDetails() != null)
-            {
+            if (productDetail.getProductCondimentDetails() != null) {
                 for (ProductCondimentDetail productCondimentDetail: productDetail.getProductCondimentDetails()) {
                     total += productCondimentDetail.getCondimentPrice()* productCondimentDetail.getQuantity();
                 }
             }
         }
-        setTotalPrice(total*(1-getDiscount()));
+        total = total * (1-getDiscount());
+        double roundedTotal = Math.round(total * 100.0) / 100.0; // rounding to 2 decimal places
+        setTotalPrice(roundedTotal);
     }
+
 }
