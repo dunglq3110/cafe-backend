@@ -6,5 +6,4 @@ public enum ProductType {
     SOFTDRINK,
     SMOOTHIE,
     FOOD
-
 }
