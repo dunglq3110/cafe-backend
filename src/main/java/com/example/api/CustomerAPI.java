@@ -1,7 +1,7 @@
 package com.example.api;
 
 import com.example.dto.ApiResponse;
-import com.example.dto.customer.CustomerRequest;
+import com.example.dto.customer.CustomerCreateRequest;
 import com.example.dto.customer.CustomerResponse;
 
 import com.example.service.ICustomerService;
@@ -22,9 +22,9 @@ public class CustomerAPI {
     ICustomerService customerService;
 
     @PostMapping
-    public ApiResponse<CustomerResponse> addCustomer(@RequestBody CustomerRequest customerRequest) {
+    public ApiResponse<CustomerResponse> addCustomer(@RequestBody CustomerCreateRequest customerCreateRequest) {
         return ApiResponse.<CustomerResponse>builder()
-                .result(customerService.addCustomer(customerRequest))
+                .result(customerService.addCustomer(customerCreateRequest))
                 .build();
     }
 

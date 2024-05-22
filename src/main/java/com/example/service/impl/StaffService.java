@@ -62,7 +62,7 @@ public class StaffService implements IStaffService {
     public StaffResponse updateStaff(Long id, StaffUpdateRequest request) {
         Staff staff = staffRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOTFOUND));
         staffMapper.updateEntity(staff,request);
-
+        staff.setPassword(passwordEncoder.encode(request.getPassword()));
         return staffMapper.toResponse(staffRepository.save(staff));
     }
     @Override
@@ -73,7 +73,7 @@ public class StaffService implements IStaffService {
         String name = context.getAuthentication().getName();
         Staff staff = staffRepository.findStaffByUsername(name).orElseThrow(() -> new AppException(ErrorCode.USER_NOTFOUND));
         staffMapper.updateEntity(staff,request);
-
+        staff.setPassword(passwordEncoder.encode(request.getPassword()));
         return staffMapper.toResponse(staffRepository.save(staff));
     }
 
@@ -81,7 +81,9 @@ public class StaffService implements IStaffService {
     @PreAuthorize("hasRole('MANAGER')")
     public boolean deleteStaff(Long id)
     {
-        staffRepository.delete(staffRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOTFOUND)));
+        Staff staff = staffRepository.getStaffById(id);
+        staff.setUsername("");
+        staff = staffRepository.save(staff);
         return true;
     }
 

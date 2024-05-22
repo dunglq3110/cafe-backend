@@ -1,10 +1,7 @@
 package com.example.mapper;
 
 
-import com.example.dto.product.ProductCreateRequest;
-import com.example.dto.product.ProductResponse;
-import com.example.dto.product.SizePriceRequest;
-import com.example.dto.product.SizePriceResponse;
+import com.example.dto.product.*;
 import com.example.entity.Product;
 import com.example.entity.ProductSize;
 import com.example.entity.Size;
@@ -23,6 +20,22 @@ public class ProductMapper {
     private final ModelMapper mapper = new ModelMapper();
 
     public Product toEntity(ProductCreateRequest productCreateRequest) {
+        //base mapper
+        Product product = mapper.map(productCreateRequest, Product.class);
+
+        //SizePrice manual mapper
+        List<ProductSize> productSizes = new ArrayList<>();
+        for (SizePriceRequest sizePrice : productCreateRequest.getSizes()) {
+            Size size = sizeRepository.findByName(sizePrice.getName()).get();
+            ProductSize productSize = new ProductSize();
+            productSize.setSize(size);
+            productSize.setPrice(sizePrice.getPrice());
+            productSizes.add(productSize);
+        }
+        product.setProductSizes(productSizes);
+        return product;
+    }
+    public Product toEntity(ProductUpdateRequest productCreateRequest) {
         //base mapper
         Product product = mapper.map(productCreateRequest, Product.class);
 

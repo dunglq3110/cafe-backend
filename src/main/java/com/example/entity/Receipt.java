@@ -49,7 +49,6 @@ public class Receipt {
                 }
             }
         }
-        total = total * (1-getDiscount());
         double roundedTotal = Math.round(total * 100.0) / 100.0; // rounding to 2 decimal places
         setTotalPrice(roundedTotal);
     }

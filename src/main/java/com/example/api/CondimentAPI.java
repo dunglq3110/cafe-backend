@@ -4,6 +4,7 @@ import com.example.dto.ApiResponse;
 import com.example.dto.codiment.CondimentCreateRequest;
 
 import com.example.dto.codiment.CondimentResponse;
+import com.example.dto.codiment.CondimentUpdateRequest;
 import com.example.service.ICondimentService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,21 @@ public class CondimentAPI {
     public ApiResponse<CondimentResponse> findById(@PathVariable("id") Long id ) {
         return ApiResponse.<CondimentResponse>builder()
                 .result(condimentService.findById(id))
+                .build();
+    }
+
+    @PutMapping(value = "/{id}")
+    public ApiResponse<CondimentResponse> updateCondiment(@PathVariable("id") Long id, @RequestBody CondimentUpdateRequest condimentUpdateRequest) {
+        return ApiResponse.<CondimentResponse>builder()
+                .result(condimentService.updateCondiment(id, condimentUpdateRequest))
+                .build();
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ApiResponse<Boolean> deleteCondiment(@PathVariable("id") Long id) {
+        return ApiResponse.<Boolean>builder()
+                .result(condimentService.deleteCondiment(id))
+                .message("Condiment deleted successfully")
                 .build();
     }
 }

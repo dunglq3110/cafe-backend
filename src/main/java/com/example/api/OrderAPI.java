@@ -25,6 +25,12 @@ public class OrderAPI {
                 .build();
     }
 
+    @GetMapping(value = "/check-gift-customer/{id}")
+    public ApiResponse<Boolean> checkGiftCustomer(@PathVariable Long id) {
+        return ApiResponse.<Boolean>builder()
+                .result(orderService.checkGiftCustomer(id))
+                .build();
+    }
 
     @PostMapping(value = "/new-order")
     public ApiResponse<ReceiptResponse> createNewOrder() {
@@ -40,6 +46,12 @@ public class OrderAPI {
                 .build();
     }
 
+    @PutMapping(value = "/remove-customer-receipt/{id}")
+    public ApiResponse<ReceiptResponse> removeCustomerReceipt(@PathVariable Long id) {
+        return ApiResponse.<ReceiptResponse>builder()
+                .result(orderService.removeCustomerReceipt(id))
+                .build();
+    }
     @PostMapping(value = "/add-product-receipt")
     public ApiResponse<ReceiptResponse> addProductReceipt(@RequestBody AddProductReceiptRequest addProductReceiptRequest) {
         return ApiResponse.<ReceiptResponse>builder()
@@ -51,6 +63,13 @@ public class OrderAPI {
     public ApiResponse<ReceiptResponse> addCondimentReceipt(@RequestBody AddCondimentReceiptRequest addCondimentReceiptRequest) {
         return ApiResponse.<ReceiptResponse>builder()
                 .result(orderService.addCondimentReceipt(addCondimentReceiptRequest))
+                .build();
+    }
+
+    @PostMapping(value = "/add-gift-customer")
+    public ApiResponse<ReceiptResponse> addGiftCustomer(@RequestBody AddGiftCustomer addGiftCustomer) {
+        return ApiResponse.<ReceiptResponse>builder()
+                .result(orderService.addGiffCustomer(addGiftCustomer))
                 .build();
     }
 
@@ -81,7 +100,6 @@ public class OrderAPI {
                 .result(orderService.deleteOrder(id))
                 .build();
     }
-
 
     @DeleteMapping(value = "/delete-product-receipt/{id}")
     public ApiResponse<ReceiptResponse> deleteProductReceipt(@PathVariable("id") Long id) {

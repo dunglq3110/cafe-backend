@@ -17,4 +17,5 @@ public interface IStaffService {
     boolean deleteStaff(Long id);
     StaffResponse getMyInfo();
     void saveReceipt(Long staffId, Receipt receipt);
+
 }

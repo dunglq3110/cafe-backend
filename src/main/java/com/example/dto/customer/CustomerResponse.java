@@ -20,4 +20,6 @@ public class CustomerResponse {
     double totalSpend;
     Gender gender;
     String phoneNumber;
+    String rankName;
+
 }

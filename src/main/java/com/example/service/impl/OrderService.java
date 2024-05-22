@@ -13,10 +13,12 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
@@ -36,6 +38,7 @@ public class OrderService implements IOrderService {
     ProductDetailRepository productDetailRepository;
     CondimentRepository condimentRepository;
     ProductCondimentDetailRepository productCondimentDetailRepository;
+    CustomerRankRepository customerRankRepository;
 
     @Override
     public ReceiptResponse getProcessReceiptOfStaff() {
@@ -73,6 +76,8 @@ public class OrderService implements IOrderService {
         Receipt receipt = receiptRepository.findReceiptById(updateCustomerReceiptRequest.getReceiptId());
         Customer customer = customerRepository.findCustomersById(updateCustomerReceiptRequest.getCustomerId());
         receipt.setCustomer(customer);
+        //add discount
+        receipt.setDiscount(customer.getCustomerRank().getDiscount());
         receipt.updateTotalPrice();
         receipt = receiptRepository.save(receipt);
         return receiptMapper.toResponse(receipt);
@@ -160,11 +165,24 @@ public class OrderService implements IOrderService {
         {
             Customer customer = receipt.getCustomer();
             customer.setTotalSpend(customer.getTotalSpend() + receipt.getTotalPrice()*(1-receipt.getDiscount()));
+
+            // Retrieve all CustomerRank entities and sort them by threshold
+            List<CustomerRank> ranks = customerRankRepository.findAll(Sort.by(Sort.Direction.ASC, "threshold"));
+
+            // Find the highest rank for which the customer's totalSpend is greater than or equal to the threshold
+            for (int i = ranks.size() - 1; i >= 0; i--) {
+                if (customer.getTotalSpend() >= ranks.get(i).getThreshold()) {
+                    customer.setCustomerRank(ranks.get(i));
+                    break;
+                }
+            }
+
             customer = customerRepository.save(customer);
         }
         receipt = receiptRepository.save(receipt);
         return receiptMapper.toResponse(receipt);
     }
+
 
     @Override
     public Boolean deleteOrder(Long id) {
@@ -199,5 +217,60 @@ public class OrderService implements IOrderService {
         return receiptMapper.toResponse(receipt);
     }
 
+    @Override
+    public ReceiptResponse removeCustomerReceipt(Long receiptId) {
+        Receipt receipt = receiptRepository.findReceiptById(receiptId);
+        receipt.setCustomer(null);
+        receipt.setDiscount(0);
+        receipt.updateTotalPrice();
+        receipt = receiptRepository.save(receipt);
+        return receiptMapper.toResponse(receipt);
+    }
 
+    public Boolean checkGiftCustomer(Long customerId) {
+        // Get the current year
+        int currentYear = LocalDate.now().getYear();
+
+        // Get the customer
+        Customer customer = customerRepository.findById(customerId).get();
+
+        // Get all receipts of the customer in the current year
+        List<Receipt> receipts = receiptRepository.findReceiptByDate_YearAndCustomer(currentYear, customer);
+
+        // Check all product details of all the receipts
+        for (Receipt receipt : receipts) {
+            for (ProductDetail productDetail : receipt.getProductDetails()) {
+                // If there is a productDetail that has productPrice = 0, return false
+                if (productDetail.getProductPrice() == 0) {
+                    return false;
+                }
+            }
+        }
+
+        // If no productDetail has productPrice = 0, return true
+        return true;
+    }
+
+    @Override
+    public ReceiptResponse addGiffCustomer(AddGiftCustomer addGiftCustomer) {
+        Product product = productRepository.findById(addGiftCustomer.getFoodId())
+                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        Size size = sizeRepository.findById(3L)
+                .orElseThrow(() -> new AppException((ErrorCode.SIZE_NOT_FOUND)));
+        Receipt receipt = receiptRepository.findReceiptById(addGiftCustomer.getReceiptId());
+        ProductSize productSize = productSizeRepository.findProductSizeByProductAndSize(product, size);
+
+        //mapper
+        ProductDetail productDetail = new ProductDetail();
+        productDetail.setReceipt(receipt);
+        productDetail.setProductSize(productSize);
+        productDetail.setProductQuantity(1);
+        productDetail.setProductPrice(0);
+        productDetail.setProductDiscount(product.getDiscount());
+
+        productDetail = productDetailRepository.save(productDetail);
+        receipt.updateTotalPrice();
+        receipt = receiptRepository.save(receipt);
+        return receiptMapper.toResponse(receiptRepository.findReceiptById(receipt.getId()));
+    }
 }

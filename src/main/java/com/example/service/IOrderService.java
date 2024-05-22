@@ -18,4 +18,8 @@ public interface IOrderService {
     Boolean deleteOrder(Long id);
     ReceiptResponse deleteProductReceipt(Long id);
     ReceiptResponse deleteCondimentReceipt(Long id);
+    ReceiptResponse removeCustomerReceipt(Long receiptId);
+
+    Boolean checkGiftCustomer(Long customerId);
+    ReceiptResponse addGiffCustomer(AddGiftCustomer addGiftCustomer);
 }

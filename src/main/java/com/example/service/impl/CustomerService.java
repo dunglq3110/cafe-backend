@@ -1,17 +1,17 @@
 package com.example.service.impl;
 
-import com.example.dto.customer.CustomerRequest;
+import com.example.dto.customer.CustomerCreateRequest;
 import com.example.dto.customer.CustomerResponse;
 import com.example.entity.Customer;
 import com.example.exeption.AppException;
 import com.example.exeption.ErrorCode;
 import com.example.mapper.CustomerMapper;
+import com.example.repository.CustomerRankRepository;
 import com.example.repository.CustomerRepository;
 import com.example.service.ICustomerService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,11 +24,12 @@ public class CustomerService implements ICustomerService {
 
 
     CustomerRepository customerRepository;
-
+    CustomerRankRepository customerRankRepository;
     CustomerMapper customerMapper;
     @Override
-    public CustomerResponse addCustomer(CustomerRequest customerRequest){
-        Customer customer = customerMapper.toCustomer(customerRequest);
+    public CustomerResponse addCustomer(CustomerCreateRequest customerCreateRequest){
+        Customer customer = customerMapper.toCustomer(customerCreateRequest);
+        customer.setCustomerRank(customerRankRepository.findById(1L).orElseThrow());
         customerRepository.save(customer);
         return customerMapper.toResponse(customer);
     }

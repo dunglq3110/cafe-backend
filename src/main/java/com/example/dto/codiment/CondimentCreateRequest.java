@@ -1,5 +1,6 @@
 package com.example.dto.codiment;
 
+import com.example.util.ProductStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -10,6 +11,8 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CondimentCreateRequest {
 
-    private String name;
-    private double unitPrice;
+    String name;
+    double unitPrice;
+    String image;
+    ProductStatus productStatus;
 }

@@ -5,6 +5,7 @@ package com.example.service.impl;
 import com.example.dto.product.ProductCreateRequest;
 import com.example.dto.product.ProductResponse;
 
+import com.example.dto.product.ProductUpdateRequest;
 import com.example.dto.product.SizePriceRequest;
 import com.example.entity.Product;
 import com.example.entity.ProductSize;
@@ -34,6 +35,7 @@ public class ProductService implements IProductService {
     ProductRepository productRepository;
     ProductSizeRepository productSizeRepository;
     SizeRepository sizeRepository;
+    ImageService imageService;
     @Override
     public ProductResponse createProduct(ProductCreateRequest productCreateRequest) {
         Product product = productMapper.toEntity(productCreateRequest);
@@ -59,5 +61,19 @@ public class ProductService implements IProductService {
 
         return productMapper.toResponse(productRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND)));
+    }
+
+    @Override
+    public ProductResponse updateProduct(Long id, ProductUpdateRequest productUpdateRequest) {
+        Product product = productMapper.toEntity(productUpdateRequest);
+        product.setId(id);
+        product = productRepository.save(product);
+        for (SizePriceRequest sizePriceRequest: productUpdateRequest.getSizes()) {
+            Size size = sizeRepository.findByName(sizePriceRequest.getName()).get();
+            ProductSize productSize = productSizeRepository.findProductSizeByProductAndSize(product, size);
+            productSize.setPrice(sizePriceRequest.getPrice());
+            productSize = productSizeRepository.save(productSize);
+        }
+        return productMapper.toResponse(product);
     }
 }

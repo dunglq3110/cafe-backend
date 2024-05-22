@@ -4,6 +4,7 @@ import com.example.dto.ApiResponse;
 
 import com.example.dto.product.ProductCreateRequest;
 import com.example.dto.product.ProductResponse;
+import com.example.dto.product.ProductUpdateRequest;
 import com.example.exeption.ErrorCode;
 import com.example.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,11 @@ public class ProductAPI {
                 .build();
     }
 
-    //delete {role: ADMIN, MANAGER}
+    @PutMapping(value = "/{id}")
+    public ApiResponse<ProductResponse> updateProduct(@PathVariable("id") Long id, @RequestBody ProductUpdateRequest productUpdateRequest) {
+        return ApiResponse.<ProductResponse>builder()
+                .result(productService.updateProduct(id, productUpdateRequest))
+                .build();
+    }
 
 }

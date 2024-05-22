@@ -19,6 +19,5 @@ public class StaffResponse {
     String address;
     String phoneNumber;
     String email;
-    String password;
-    String username;
+    String userName;
 }

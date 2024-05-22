@@ -13,7 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
-public class CustomerRequest {
+public class CustomerCreateRequest {
 
     String firstName;
     String lastName;

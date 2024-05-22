@@ -31,6 +31,8 @@ public class Customer {
     double totalSpend;
     Gender gender;
     String phoneNumber;
+    @ManyToOne
+    CustomerRank customerRank;
     @JsonIgnore
     @OneToMany(mappedBy = "customer")
     private List<Receipt> receipts;
