@@ -9,6 +9,7 @@ import com.example.exeption.ErrorCode;
 import com.example.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -25,6 +26,13 @@ public class ProductAPI {
                 .code(ErrorCode.PRODUCT_CREATE_SUCCESSFULLY.getCode())
                 .message(ErrorCode.PRODUCT_CREATE_SUCCESSFULLY.getMessage())
                 .result(result)
+                .build();
+    }
+
+    @PostMapping(value = "/upload-image")
+    public ApiResponse<String> uploadImage(@RequestParam("image") MultipartFile multipartFile) {
+        return ApiResponse.<String>builder()
+                .result(productService.uploadImage(multipartFile))
                 .build();
     }
 

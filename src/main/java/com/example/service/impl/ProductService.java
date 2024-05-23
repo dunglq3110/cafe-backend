@@ -22,6 +22,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 
@@ -51,6 +53,7 @@ public class ProductService implements IProductService {
         return productMapper.toResponse(product);
     }
 
+
     @Override
     public List<ProductResponse> getAll() {
         return productMapper.toResponse(productRepository.findAll());
@@ -75,5 +78,10 @@ public class ProductService implements IProductService {
             productSize = productSizeRepository.save(productSize);
         }
         return productMapper.toResponse(product);
+    }
+
+    @Override
+    public String uploadImage(MultipartFile multipartFile) {
+        return imageService.upload(multipartFile);
     }
 }

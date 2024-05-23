@@ -10,4 +10,5 @@ public interface IImageService {
     File convertToFile(MultipartFile multipartFile, String fileName) throws IOException;
     String getExtension(String fileName);
     String upload(MultipartFile multipartFile);
+    Boolean delete(String url);
 }

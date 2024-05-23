@@ -25,7 +25,7 @@ public class ImageService implements IImageService {
 
     @Override
     public String uploadFile(File file, String fileName) throws IOException {
-        BlobId blobId = BlobId.of("cafe-firebase-2f4b9.appspot.com", fileName); // Replace with your bucker name
+        BlobId blobId = BlobId.of("cafe-firebase-2f4b9.appspot.com", fileName); // Replace with your bucket name
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
         InputStream inputStream = ImageService.class.getClassLoader().getResourceAsStream("cafe-firebase-2f4b9-firebase-adminsdk-qznca-8df7956e99.json"); // change the file name with your one
         Credentials credentials = GoogleCredentials.fromStream(inputStream);
@@ -65,6 +65,21 @@ public class ImageService implements IImageService {
             return "Image couldn't upload, Something went wrong";
         }
     }
-
+    @Override
+    public Boolean delete(String url) {
+        try {
+            // Extract the file name from the URL
+            String fileName = url.substring(url.lastIndexOf('/') + 1, url.indexOf("?alt=media"));
+            BlobId blobId = BlobId.of("cafe-firebase-2f4b9.appspot.com", fileName); // Replace with your bucket name
+            InputStream inputStream = ImageService.class.getClassLoader().getResourceAsStream("cafe-firebase-2f4b9-firebase-adminsdk-qznca-8df7956e99.json"); // change the file name with your one
+            Credentials credentials = GoogleCredentials.fromStream(inputStream);
+            Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+            storage.delete(blobId);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }
