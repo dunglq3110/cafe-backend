@@ -13,7 +13,18 @@ public enum ErrorCode {
     USER_EXISTED(1001, "User is existed",HttpStatus.BAD_REQUEST),
     USER_NOTFOUND(1002, "User not found",HttpStatus.NOT_FOUND),
     USERNAME_INVALID(1003, "Username must be at least 8 characters and maximum 20 characters",HttpStatus.BAD_REQUEST),
-    PASSWORD_INVALID(1004, "Password must be at least 8 characters and maximum 20 characters",HttpStatus.BAD_REQUEST),
+    PASSWORD_INVALID(1011, "Password must be at least 8 characters and maximum 20 characters",HttpStatus.BAD_REQUEST),
+    FIRSTNAME_INVALID(1012, "First name is Invalid",HttpStatus.BAD_REQUEST),
+    LASTNAME_INVALID(1013, "Last name is Invalid",HttpStatus.BAD_REQUEST),
+    PHONENUMBER_INVALID(1014, "Phone is Invalid",HttpStatus.BAD_REQUEST),
+    NAMER_INVALID(1015, "Name is Invalid",HttpStatus.BAD_REQUEST),
+    DATEOFBIRTH_REQUIRED(1016,"Select date of birth",HttpStatus.BAD_REQUEST),
+    PRICE_REQUIRED(1017,"Price is invalid ",HttpStatus.BAD_REQUEST),
+    PRODUCT_TYPE_REQUIRED(1018,"Select type of Product",HttpStatus.BAD_REQUEST),
+    PRODUCT_STATUS_REQUIRED(1019,"Select status of Product",HttpStatus.BAD_REQUEST),
+
+
+
     UNAUTHENTICATED(1005, "Unauthenticated", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(1006, "You are not allowed!", HttpStatus.FORBIDDEN),
     WRONG_PASSWORD(1007,"The password is wrong!!", HttpStatus.BAD_REQUEST),

@@ -6,6 +6,7 @@ import com.example.dto.codiment.CondimentCreateRequest;
 import com.example.dto.codiment.CondimentResponse;
 import com.example.dto.codiment.CondimentUpdateRequest;
 import com.example.service.ICondimentService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -23,7 +24,7 @@ public class CondimentAPI {
     ICondimentService condimentService;
 
     @PostMapping
-    public ApiResponse<CondimentResponse> createCondiment(@RequestBody CondimentCreateRequest condimentCreateRequest) {
+    public ApiResponse<CondimentResponse> createCondiment(@RequestBody @Valid CondimentCreateRequest condimentCreateRequest) {
         return ApiResponse.<CondimentResponse>builder()
                 .result(condimentService.createCondiment(condimentCreateRequest))
                 .build();
@@ -44,7 +45,7 @@ public class CondimentAPI {
     }
 
     @PutMapping(value = "/{id}")
-    public ApiResponse<CondimentResponse> updateCondiment(@PathVariable("id") Long id, @RequestBody CondimentUpdateRequest condimentUpdateRequest) {
+    public ApiResponse<CondimentResponse> updateCondiment(@PathVariable("id") Long id, @RequestBody @Valid CondimentUpdateRequest condimentUpdateRequest) {
         return ApiResponse.<CondimentResponse>builder()
                 .result(condimentService.updateCondiment(id, condimentUpdateRequest))
                 .build();

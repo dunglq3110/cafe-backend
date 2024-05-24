@@ -5,6 +5,7 @@ import com.example.dto.customer.CustomerCreateRequest;
 import com.example.dto.customer.CustomerResponse;
 
 import com.example.service.ICustomerService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -22,7 +23,7 @@ public class CustomerAPI {
     ICustomerService customerService;
 
     @PostMapping
-    public ApiResponse<CustomerResponse> addCustomer(@RequestBody CustomerCreateRequest customerCreateRequest) {
+    public ApiResponse<CustomerResponse> addCustomer(@RequestBody @Valid CustomerCreateRequest customerCreateRequest) {
         return ApiResponse.<CustomerResponse>builder()
                 .result(customerService.addCustomer(customerCreateRequest))
                 .build();

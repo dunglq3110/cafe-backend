@@ -7,6 +7,7 @@ import com.example.dto.product.ProductResponse;
 import com.example.dto.product.ProductUpdateRequest;
 import com.example.exeption.ErrorCode;
 import com.example.service.IProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,7 +21,7 @@ public class ProductAPI {
     private IProductService productService;
 
     @PostMapping
-    public ApiResponse<ProductResponse> createProduct(@RequestBody ProductCreateRequest productCreateRequest) {
+    public ApiResponse<ProductResponse> createProduct(@RequestBody @Valid  ProductCreateRequest productCreateRequest) {
         ProductResponse result = productService.createProduct(productCreateRequest);
         return ApiResponse.<ProductResponse>builder()
                 .code(ErrorCode.PRODUCT_CREATE_SUCCESSFULLY.getCode())
@@ -53,7 +54,7 @@ public class ProductAPI {
     }
 
     @PutMapping(value = "/{id}")
-    public ApiResponse<ProductResponse> updateProduct(@PathVariable("id") Long id, @RequestBody ProductUpdateRequest productUpdateRequest) {
+    public ApiResponse<ProductResponse> updateProduct(@PathVariable("id") Long id, @RequestBody @Valid ProductUpdateRequest productUpdateRequest) {
         return ApiResponse.<ProductResponse>builder()
                 .result(productService.updateProduct(id, productUpdateRequest))
                 .build();
