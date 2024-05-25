@@ -7,7 +7,7 @@ This project implements a cafe management system with both backend (API) and fro
 * Backend: Spring Boot following Controllers-Service-Repository architecture pattern
 * Database: MySQL
 * Cloud Storage: Firebase (optional)
-* Frontend: (technologies not specified in the prompt, but likely a web framework like React or Angular)
+* Frontend: ReactJS
 
 ### Features
 
