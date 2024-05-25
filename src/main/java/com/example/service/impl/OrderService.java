@@ -27,7 +27,6 @@ import java.util.concurrent.locks.ReentrantLock;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class OrderService implements IOrderService {
-
     ReceiptRepository receiptRepository;
     StaffRepository staffRepository;
     CustomerRepository customerRepository;
@@ -39,7 +38,6 @@ public class OrderService implements IOrderService {
     CondimentRepository condimentRepository;
     ProductCondimentDetailRepository productCondimentDetailRepository;
     CustomerRankRepository customerRankRepository;
-
     @Override
     public ReceiptResponse getProcessReceiptOfStaff() {
         SecurityContext context = SecurityContextHolder.getContext();
@@ -49,7 +47,6 @@ public class OrderService implements IOrderService {
         if (receipts.isEmpty()) return null;
         else return receiptMapper.toResponse(receipts.get(0));
     }
-
     @Override
     public ReceiptResponse createNewOrder() {
         //get current staff credential through token
@@ -70,7 +67,6 @@ public class OrderService implements IOrderService {
         receipt = receiptRepository.save(receipt);
         return receiptMapper.toResponse(receipt);
     }
-
     @Override
     public ReceiptResponse updateCustomerReceipt(UpdateCustomerReceiptRequest updateCustomerReceiptRequest) {
         Receipt receipt = receiptRepository.findReceiptById(updateCustomerReceiptRequest.getReceiptId());
@@ -82,7 +78,6 @@ public class OrderService implements IOrderService {
         receipt = receiptRepository.save(receipt);
         return receiptMapper.toResponse(receipt);
     }
-
     @Override
     public ReceiptResponse addProductReceipt(AddProductReceiptRequest addProductReceiptRequest) {
         //find objects in database
@@ -106,7 +101,6 @@ public class OrderService implements IOrderService {
         receipt = receiptRepository.save(receipt);
         return receiptMapper.toResponse(receiptRepository.findReceiptById(receipt.getId()));
     }
-
     @Override
     public ReceiptResponse addCondimentReceipt(AddCondimentReceiptRequest addCondimentReceiptRequest) {
 
@@ -130,7 +124,6 @@ public class OrderService implements IOrderService {
         receipt = receiptRepository.save(receipt);
         return receiptMapper.toResponse(receipt);
     }
-
     @Override
     public ReceiptResponse updateProductReceipt(UpdateProductReceiptRequest updateProductReceiptRequest) {
         ProductDetail productDetail = productDetailRepository.findById(updateProductReceiptRequest.getProductDetailId())

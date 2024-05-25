@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.Year;
@@ -25,6 +26,9 @@ import java.util.Map;
 public class ReportService implements IReportService {
 
     ReceiptRepository receiptRepository;
+    private double roundToTwoDecimalPlaces(double value) {
+        return BigDecimal.valueOf(value).setScale(2).doubleValue();
+    }
     @Override
     public List<TableRowTotalResponse> getYearReport(int year) {
         List<TableRowTotalResponse> responses = new ArrayList<>();

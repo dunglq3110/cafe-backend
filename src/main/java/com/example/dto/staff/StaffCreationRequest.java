@@ -32,5 +32,4 @@ public class StaffCreationRequest {
 
     @Email(message = "EMAIL_INVALID")
     String email;
-
 }

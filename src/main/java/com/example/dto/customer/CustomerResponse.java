@@ -21,5 +21,4 @@ public class CustomerResponse {
     Gender gender;
     String phoneNumber;
     String rankName;
-
 }

@@ -22,7 +22,6 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CustomerService implements ICustomerService {
 
-
     CustomerRepository customerRepository;
     CustomerRankRepository customerRankRepository;
     CustomerMapper customerMapper;
