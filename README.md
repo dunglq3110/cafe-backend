@@ -1,6 +1,6 @@
-## Cafe Management System - Backend and Frontend
+## Cafe Management System - Backend Spring Boot
 
-This project implements a cafe management system with both backend (API) and frontend functionalities.
+This project implements a cafe management system with backend (API)
 
 ### Technologies
 
