@@ -5,12 +5,14 @@ import com.example.dto.codiment.CondimentCreateRequest;
 
 import com.example.dto.codiment.CondimentResponse;
 import com.example.dto.codiment.CondimentUpdateRequest;
+import com.example.exeption.ErrorCode;
 import com.example.service.ICondimentService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,12 +39,20 @@ public class CondimentAPI {
                 .build();
     }
 
+
+
     @GetMapping(value = "/{id}")
     public ApiResponse<CondimentResponse> findById(@PathVariable("id") Long id ) {
         return ApiResponse.<CondimentResponse>builder()
                 .result(condimentService.findById(id))
                 .build();
     }
+//    public ApiResponse<CondimentResponse> findById(@PathVariable("id") Long id ) {
+//        ApiResponse<CondimentResponse> response = new ApiResponse<CondimentResponse>();
+//        response.setResult(condimentService.findById(id));
+//        response.setCode(200);
+//        return response;
+//    }
 
     @PutMapping(value = "/{id}")
     public ApiResponse<CondimentResponse> updateCondiment(@PathVariable("id") Long id, @RequestBody @Valid CondimentUpdateRequest condimentUpdateRequest) {

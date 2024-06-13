@@ -68,6 +68,8 @@ public class ProductService implements IProductService {
 
     @Override
     public ProductResponse updateProduct(Long id, ProductUpdateRequest productUpdateRequest) {
+        Product old = productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        imageService.delete(old.getImage());
         Product product = productMapper.toEntity(productUpdateRequest);
         product.setId(id);
         product = productRepository.save(product);

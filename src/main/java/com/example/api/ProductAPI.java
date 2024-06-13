@@ -6,6 +6,7 @@ import com.example.dto.product.ProductCreateRequest;
 import com.example.dto.product.ProductResponse;
 import com.example.dto.product.ProductUpdateRequest;
 import com.example.exeption.ErrorCode;
+import com.example.service.IImageService;
 import com.example.service.IProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

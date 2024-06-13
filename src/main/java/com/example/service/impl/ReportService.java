@@ -27,7 +27,7 @@ public class ReportService implements IReportService {
 
     ReceiptRepository receiptRepository;
     private double roundToTwoDecimalPlaces(double value) {
-        return BigDecimal.valueOf(value).setScale(2).doubleValue();
+        return Math.round(value * 100.0) / 100.0;
     }
     @Override
     public List<TableRowTotalResponse> getYearReport(int year) {
@@ -67,10 +67,10 @@ public class ReportService implements IReportService {
             // Create and add the response for the month
             TableRowTotalResponse response = new TableRowTotalResponse();
             response.setLabel(months[i]);
-            response.setTotalRevenue(totalRevenue);
+            response.setTotalRevenue(roundToTwoDecimalPlaces(totalRevenue));
             response.setProductQuantity(productQuantity);
             response.setCondimentQuantity(condimentQuantity);
-            response.setDiscounted(discounted);
+            response.setDiscounted(roundToTwoDecimalPlaces(discounted));
             responses.add(response);
         }
 

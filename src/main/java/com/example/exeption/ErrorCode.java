@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatusCode;
 
 @Getter
 public enum ErrorCode {
-
     UNCATEGORIZED(9999, "Uncategorized exception", HttpStatus.INTERNAL_SERVER_ERROR),
     KEY_INVALID(9998, "Key is invalid", HttpStatus.BAD_REQUEST),
     USER_EXISTED(1001, "User is existed",HttpStatus.BAD_REQUEST),
@@ -22,9 +21,6 @@ public enum ErrorCode {
     PRICE_REQUIRED(1017,"Price is invalid ",HttpStatus.BAD_REQUEST),
     PRODUCT_TYPE_REQUIRED(1018,"Select type of Product",HttpStatus.BAD_REQUEST),
     PRODUCT_STATUS_REQUIRED(1019,"Select status of Product",HttpStatus.BAD_REQUEST),
-
-
-
     UNAUTHENTICATED(1005, "Unauthenticated", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(1006, "You are not allowed!", HttpStatus.FORBIDDEN),
     WRONG_PASSWORD(1007,"The password is wrong!!", HttpStatus.BAD_REQUEST),
@@ -40,6 +36,7 @@ public enum ErrorCode {
     INVALID_INDEX(203, "Order not found", HttpStatus.NOT_FOUND),
     INVALID_TOKEN(204, "Invalid token", HttpStatus.BAD_REQUEST),
     RECEIPT_CREATE_SUCCESSFULLY(200, "Receipt create successfully", HttpStatus.OK),
+    CUSTOMER_EXIST(1100, "Customer with phone number is already exist", HttpStatus.BAD_REQUEST)
     ;
     private final int code;
     private final String message;

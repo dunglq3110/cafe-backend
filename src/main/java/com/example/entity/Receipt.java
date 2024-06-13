@@ -45,7 +45,7 @@ public class Receipt {
             total += productDetail.getProductPrice()*productDetail.getProductQuantity()*(1-productDetail.getProductDiscount());
             if (productDetail.getProductCondimentDetails() != null) {
                 for (ProductCondimentDetail productCondimentDetail: productDetail.getProductCondimentDetails()) {
-                    total += productCondimentDetail.getCondimentPrice()* productCondimentDetail.getQuantity();
+                    total += productCondimentDetail.getCondimentPrice()* productCondimentDetail.getQuantity()*productDetail.getProductQuantity();
                 }
             }
         }

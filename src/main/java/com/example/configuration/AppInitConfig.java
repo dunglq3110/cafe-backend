@@ -36,9 +36,9 @@ public class AppInitConfig {
                 user.setRole(Role.ADMIN);
                 staffRepository.save(user);
                 Staff manager = new Staff();
-                user.setUsername("managerCafe123");
-                user.setPassword(passwordEncoder.encode("managerCafe123"));
-                user.setRole(Role.MANAGER);
+                manager.setUsername("managerCafe123");
+                manager.setPassword(passwordEncoder.encode("managerCafe123"));
+                manager.setRole(Role.MANAGER);
                 staffRepository.save(manager);
             }
         };
